@@ -2,29 +2,23 @@ package no.experis.ballc.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Table(name = "TEST")
+@Table(name = "PERSON")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @NotBlank
-    private String name;
+    private int person_id;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    private String first_name;
+    private String last_name;
+    private Date date_of_birth;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private Set<Contact> contacts;
 
-    public Person() {
-    }
 
-
-    public Person(@NotBlank String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 }
