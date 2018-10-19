@@ -11,14 +11,25 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int person_id;
+
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
     private String first_name;
     private String last_name;
     private Date date_of_birth;
+
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private Set<Contact> contacts;
 
+    @OneToOne(mappedBy = "person")
+    private Player player;
+
+    @OneToOne(mappedBy = "person")
+    private Coach coach;
+
+    @OneToOne(mappedBy = "person")
+    private Owner owner;
 
 }

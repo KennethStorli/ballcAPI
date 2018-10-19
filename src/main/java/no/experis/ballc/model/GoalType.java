@@ -1,9 +1,6 @@
 package no.experis.ballc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class GoalType {
@@ -12,18 +9,10 @@ public class GoalType {
     private int goal_type_id;
     private String type;
 
+    @OneToOne(mappedBy = "goalType")
+    private MatchGoal matchGoal;
+
     public GoalType() {
     }
 
-    public GoalType(String type) {
-        this.type = type;
-    }
-
-    public int getGoal_type_id() {
-        return goal_type_id;
-    }
-
-    public String getType() {
-        return type;
-    }
 }

@@ -11,7 +11,7 @@ public class Location {
     private String name;
     private String description;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 

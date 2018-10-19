@@ -16,11 +16,13 @@ public class TestController {
     TestJpaRepository testRepository;
 
     @GetMapping("/test")
+    @CrossOrigin(origins = "*")
     public List<Test> getAllPersons(){
         return testRepository.findAll();
     }
 
     @PostMapping("/test")
+    @CrossOrigin(origins = "*")
     public Test create(@RequestBody Map<String, String> body){
         String name = body.get("name");
         return testRepository.save(new Test(name));

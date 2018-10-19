@@ -8,20 +8,15 @@ public class Coach {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int coach_id;
-    private int person_id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+    @OneToOne(mappedBy = "coach")
+    private Team team;
 
     public Coach() {
     }
 
-    public Coach(int person_id) {
-        this.person_id = person_id;
-    }
-
-    public int getCoach_id() {
-        return coach_id;
-    }
-
-    public int getPerson_id() {
-        return person_id;
-    }
 }
