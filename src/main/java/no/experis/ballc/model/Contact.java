@@ -3,6 +3,7 @@ package no.experis.ballc.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "CONTACT")
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

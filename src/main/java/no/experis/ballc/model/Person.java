@@ -20,7 +20,7 @@ public class Person {
     private String last_name;
     private Date date_of_birth;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+/*    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private Set<Contact> contacts;
 
     @OneToOne(mappedBy = "person")
@@ -30,6 +30,6 @@ public class Person {
     private Coach coach;
 
     @OneToOne(mappedBy = "person")
-    private Owner owner;
+    private Owner owner;*/
 
 }

@@ -35,6 +35,6 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private Set<Player> players;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.team", cascade = CascadeType.ALL)
     private Set<Result> results;
 }

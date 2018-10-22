@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "PLAYER")
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,9 +23,14 @@ public class Player {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     private Set<MatchGoal> matchGoals;
 
+    @OneToMany(mappedBy = "primaryKey.player", cascade = CascadeType.ALL)
+    private Set<MatchPosition> matchPositions;
+
+    /*
+    Original annotation
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(name = "MATCH_POSITION",
             joinColumns = { @JoinColumn(name = "player_id") },
             inverseJoinColumns = { @JoinColumn(name = "match_id") })
-    private Set<Match> matches;
+    private Set<Match> matches;*/
 }

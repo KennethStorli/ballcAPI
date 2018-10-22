@@ -1,40 +1,42 @@
-/*
 package no.experis.ballc.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "MATCH_POSITION")
+@AssociationOverrides({
+        @AssociationOverride(name = "primaryKey.player",
+                joinColumns = @JoinColumn(name = "player_id")),
+        @AssociationOverride(name = "primaryKey.match",
+                joinColumns = @JoinColumn(name = "match_id")) })
 public class MatchPosition {
-
+    @EmbeddedId
+    private MatchPositionId primaryKey = new MatchPositionId();
     private String position;
-    private int player_id;
-    private int match_id;
 
-    public MatchPosition() {
+    public MatchPositionId getPrimaryKey() {
+        return primaryKey;
     }
 
-    public MatchPosition(String position, int player_id, int match_id) {
-        this.position = position;
-        this.player_id = player_id;
-        this.match_id = match_id;
+    public void setPrimaryKey(MatchPositionId primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
-    public String getPosition() {
-        return position;
+    @Transient
+    public Player getPlayer() {
+        return getPrimaryKey().getPlayer();
     }
 
-    public int getPlayer_id() {
-        return player_id;
+    public void setPlayer(Player player) {
+        getPrimaryKey().setPlayer(player);
     }
 
-    public int getMatch_id() {
-        return match_id;
+    @Transient
+    public Match getMatch() {
+        return getPrimaryKey().getMatch();
     }
 
-    */
-/*position VARCHAR(64),
-    player_id INT NOT NULL,
-    match_id INT NOT NULL,
-    PRIMARY KEY (player_id, match_id),
-    FOREIGN KEY (player_id) REFERENCES PLAYER(player_id),
-    FOREIGN KEY (match_id) REFERENCES `MATCH`(match_id)*//*
-
+    public void setMatch(Match match) {
+        getPrimaryKey().setMatch(match);
+    }
 }
-*/

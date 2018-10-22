@@ -1,6 +1,5 @@
 package no.experis.ballc.controller;
 
-
 import no.experis.ballc.model.Test;
 import no.experis.ballc.repository.TestJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
