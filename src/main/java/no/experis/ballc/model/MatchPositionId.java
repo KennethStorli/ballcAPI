@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.CascadeType;
@@ -29,3 +30,4 @@ public class MatchPositionId implements Serializable {
         this.match = match;
     }
 }
+*/

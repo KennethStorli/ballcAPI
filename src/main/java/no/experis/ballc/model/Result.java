@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -42,3 +43,4 @@ public class Result implements Serializable {
         getPrimaryKey().setMatch(match);
     }
 }
+*/

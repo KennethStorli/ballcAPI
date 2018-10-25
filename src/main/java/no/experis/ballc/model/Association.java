@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -18,5 +19,26 @@ public class Association {
     public Association() {
     }
 
+    public Association(String name, String description, Set<Team> teams) {
+        this.name = name;
+        this.description = description;
+        this.teams = teams;
+    }
 
+    public int getAssociation_id() {
+        return association_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
 }
+*/

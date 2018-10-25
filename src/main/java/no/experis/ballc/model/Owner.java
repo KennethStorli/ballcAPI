@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -18,4 +19,22 @@ public class Owner {
 
     public Owner() {
     }
+
+    public Owner(Person person, Team team) {
+        this.person = person;
+        this.team = team;
+    }
+
+    public int getOwner_id() {
+        return owner_id;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
 }
+*/

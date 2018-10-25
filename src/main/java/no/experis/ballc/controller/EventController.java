@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.controller;
 
 import no.experis.ballc.repository.*;
@@ -20,3 +21,4 @@ public class EventController {
     @Autowired
     ResultJpaRepository resultRepository;
 }
+*/

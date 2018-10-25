@@ -15,7 +15,6 @@ public class Test {
     public Test() {
     }
 
-
     public Test(@NotBlank String name) {
         this.name = name;
     }

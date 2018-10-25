@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -19,4 +20,21 @@ public class Coach {
     public Coach() {
     }
 
+    public Coach(Person person, Team team) {
+        this.person = person;
+        this.team = team;
+    }
+
+    public int getCoach_id() {
+        return coach_id;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
 }
+*/

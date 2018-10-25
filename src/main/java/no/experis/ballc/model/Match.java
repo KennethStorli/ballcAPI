@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -34,14 +35,57 @@ public class Match {
     @OneToMany(mappedBy = "primaryKey.match", cascade = CascadeType.ALL)
     private Set<MatchPosition> matchPositions;
 
-/*    @ManyToMany(mappedBy = "matches")
-    private Set<Player> matches;*/
-
     @OneToMany(mappedBy = "primaryKey.match", cascade = CascadeType.ALL)
     private Set<Result> results;
 
     public Match() {
     }
 
+    public Match(Date match_date, Season season, Location location, Team home_team, Team away_team, Set<MatchGoal> matchGoals, Set<MatchPosition> matchPositions, Set<Result> results) {
+        this.match_date = match_date;
+        this.season = season;
+        this.location = location;
+        this.home_team = home_team;
+        this.away_team = away_team;
+        this.matchGoals = matchGoals;
+        this.matchPositions = matchPositions;
+        this.results = results;
+    }
 
+    public int getMatch_id() {
+        return match_id;
+    }
+
+    public Date getMatch_date() {
+        return match_date;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Team getHome_team() {
+        return home_team;
+    }
+
+    public Team getAway_team() {
+        return away_team;
+    }
+
+    public Set<MatchGoal> getMatchGoals() {
+        return matchGoals;
+    }
+
+    public Set<MatchPosition> getMatchPositions() {
+        return matchPositions;
+    }
+
+    public Set<Result> getResults() {
+        return results;
+    }
 }
+*/

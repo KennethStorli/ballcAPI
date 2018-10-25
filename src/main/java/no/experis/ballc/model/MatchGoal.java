@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -25,4 +26,31 @@ public class MatchGoal {
     public MatchGoal() {
     }
 
+    public MatchGoal(String description, GoalType goalType, Match match, Player player) {
+        this.description = description;
+        this.goalType = goalType;
+        this.match = match;
+        this.player = player;
+    }
+
+    public int getGoal_id() {
+        return goal_id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public GoalType getGoalType() {
+        return goalType;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
+*/

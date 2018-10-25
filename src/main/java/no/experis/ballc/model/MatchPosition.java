@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -40,3 +41,4 @@ public class MatchPosition {
         getPrimaryKey().setMatch(match);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package no.experis.ballc.repository;
 
 import no.experis.ballc.model.GoalType;
@@ -7,3 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GoalTypeJpaRepository extends JpaRepository<GoalType, Integer> {
 }
+*/

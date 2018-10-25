@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class TestController {
@@ -22,8 +21,7 @@ public class TestController {
 
     @PostMapping("/test")
     @CrossOrigin(origins = "*")
-    public Test create(@RequestBody Map<String, String> body){
-        String name = body.get("name");
-        return testRepository.save(new Test(name));
+    public Test create(@RequestBody Test test){
+        return testRepository.save(test);
     }
 }
