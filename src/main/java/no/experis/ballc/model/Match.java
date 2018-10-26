@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -88,4 +87,3 @@ public class Match {
         return results;
     }
 }
-*/

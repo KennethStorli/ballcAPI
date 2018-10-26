@@ -57,6 +57,12 @@
 			<version>5.2.2.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+			<version>0.24.0.RELEASE</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -71,7 +77,8 @@
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>2.0.6</version>
 				<configuration>
-					<appName>ea-case-ballc</appName>
+					<appName>ballc-backend-api
+					</appName>
 					<processTypes>
 						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* no.experis.ballc.BallcApplication</web>
 					</processTypes>

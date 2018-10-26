@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -30,41 +29,58 @@ public class Player {
     public Player() {
     }
 
-    public Player(String normal_position, int number, Person person, Team team, Set<MatchGoal> matchGoals, Set<MatchPosition> matchPositions) {
+    public Player(String normal_position, int number, Person person, Team team) {
         this.normal_position = normal_position;
         this.number = number;
         this.person = person;
         this.team = team;
-        this.matchGoals = matchGoals;
-        this.matchPositions = matchPositions;
-    }
-
-    public int getPlayer_id() {
-        return player_id;
     }
 
     public String getNormal_position() {
         return normal_position;
     }
 
+    public void setNormal_position(String normal_position) {
+        this.normal_position = normal_position;
+    }
+
     public int getNumber() {
         return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public Person getPerson() {
         return person;
     }
 
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     public Team getTeam() {
         return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public Set<MatchGoal> getMatchGoals() {
         return matchGoals;
     }
 
+    public void setMatchGoals(Set<MatchGoal> matchGoals) {
+        this.matchGoals = matchGoals;
+    }
+
     public Set<MatchPosition> getMatchPositions() {
         return matchPositions;
     }
+
+    public void setMatchPositions(Set<MatchPosition> matchPositions) {
+        this.matchPositions = matchPositions;
+    }
 }
-*/
