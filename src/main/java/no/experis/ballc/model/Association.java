@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -41,4 +40,3 @@ public class Association {
         return teams;
     }
 }
-*/

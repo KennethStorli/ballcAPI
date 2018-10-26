@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -37,4 +36,3 @@ public class Owner {
         return team;
     }
 }
-*/

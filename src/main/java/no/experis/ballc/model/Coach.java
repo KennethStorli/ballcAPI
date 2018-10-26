@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -33,8 +32,15 @@ public class Coach {
         return person;
     }
 
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     public Team getTeam() {
         return team;
     }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }
-*/

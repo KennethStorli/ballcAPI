@@ -3,7 +3,6 @@ package no.experis.ballc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,18 +15,22 @@ public class Person {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
-    @JsonIgnore
     private Address address;
 
     private String first_name;
     private String last_name;
     private Date date_of_birth;
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "person",
+            cascade = CascadeType.ALL)
+    private Set<Contact> contacts;
 
     public Person() {
     }
 
     public Person(Address address, String first_name, String last_name, Date date_of_birth) {
         this.address = address;
+//        this.addressId = address.getAddress_id();
         this.first_name = first_name;
         this.last_name = last_name;
         this.date_of_birth = date_of_birth;
@@ -41,12 +44,20 @@ public class Person {
         this.person_id = person_id;
     }
 
-    public Address getAddress() {
-        return address;
+    public int getAddress() {
+        return address.getAddress_id();
     }
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public String getFirst_name() {

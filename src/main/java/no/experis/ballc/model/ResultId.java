@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -30,4 +29,3 @@ public class ResultId implements Serializable {
 
 
 }
-*/

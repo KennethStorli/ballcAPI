@@ -20,7 +20,7 @@ public class Address {
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "address",
             cascade = CascadeType.ALL)
-    private Set<Person> persons = new HashSet<>();
+    private Set<Person> persons;
 
 /*    @OneToOne(mappedBy = "address")
     private Location location;*/

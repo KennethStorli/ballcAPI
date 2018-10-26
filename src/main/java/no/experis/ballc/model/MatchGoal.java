@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.model;
 
 import javax.persistence.*;
@@ -53,4 +52,3 @@ public class MatchGoal {
         return player;
     }
 }
-*/

@@ -1,4 +1,3 @@
-/*
 package no.experis.ballc.repository;
 
 import no.experis.ballc.model.Player;
@@ -8,4 +7,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlayerJpaRepository extends JpaRepository<Player, Integer> {
 }
-*/
