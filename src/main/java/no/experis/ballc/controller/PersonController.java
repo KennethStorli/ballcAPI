@@ -39,6 +39,8 @@ public class PersonController {
     SeasonJpaRepository seasonRepository;
     @Autowired
     LocationJpaRepository locationRepository;
+    @Autowired
+    ResultJpaRepository resultRepository;
 
 // Addresses
     @GetMapping("/addresses")
@@ -464,6 +466,44 @@ public class PersonController {
 
     //association end
 
+    //result
+
+    @GetMapping("/results")
+    public List<Result> getAllResults(){
+        return resultRepository.findAll();
+    }
+
+    @GetMapping("/results/{id}")
+    public Result getResult(@PathVariable int id){
+        Optional<Result> result = resultRepository.findById(id);
+        return result.get();
+    }
+/*
+    @PostMapping("/results")
+    public Result createResult(@RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+//TODO
+        return resultRepository.save(new Result(name , desc));
+    }
+
+    @PutMapping("/results/{id}")
+    public Result updateResult(@PathVariable int id, @RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+        Result newResult = new Result();
+        newResult.setMatch_id(id);
+        //TODO
+        return resultRepository.save(newResult);
+    }
+*/
+    @DeleteMapping("/results/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteResult(@PathVariable int id) {
+        resultRepository.deleteById(id);
+    }
+
+    //result end
 
 // Helper methods
     private LocalDate parseDate(String dateString) {
