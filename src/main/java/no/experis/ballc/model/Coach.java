@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "COACH")
 public class Coach {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int coach_id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -28,16 +28,16 @@ public class Coach {
         return coach_id;
     }
 
-    public Person getPerson() {
-        return person;
+    public int getPerson() {
+        return person.getPerson_id();
     }
 
     public void setPerson(Person person) {
         this.person = person;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getTeam() {
+        return team.getTeam_id();
     }
 
     public void setTeam(Team team) {
