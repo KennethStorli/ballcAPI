@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,57 @@ public class PersonController {
     @Autowired
     LocationJpaRepository locationRepository;
 
+// Addresses
+    @GetMapping("/addresses")
+    @CrossOrigin(origins = "*")
+    public List<Address> getAllAddresses(){
+        return addressRepository.findAll();
+    }
+
+    @GetMapping("/addresses/{id}")
+    @CrossOrigin(origins = "*")
+    public Address getAddress(@PathVariable int id){
+        Optional<Address> address = addressRepository.findById(id);
+        return address.get();
+    }
+
+    @PostMapping("/addresses")
+    @CrossOrigin(origins = "*")
+    public Address createAddress(@RequestBody Map<String, String> body) {
+        String address_line_1 = body.get("address_line_1");
+        String address_line_2 = body.get("address_line_2");
+        String postal_code = body.get("postal_code");
+        String city = body.get("city");
+        String country = body.get("country");
+        String address_line_3 = body.get("address_line_3");
+        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
+        return addressRepository.save(new Address(address_line_1, address_line_2, postal_code, city, country, address_line_3, location.get()));
+    }
+
+    @PutMapping("/addresses/{id}")
+    @CrossOrigin(origins = "*")
+    public Address updateAddress(@PathVariable int id,
+                               @RequestBody Map<String, String> body) {
+        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
+        Optional<Address> oldAddress = addressRepository.findById(id);
+        Address newAddress = oldAddress.get();
+
+        newAddress.setAddress_line_1(body.get("address_line_1"));
+        newAddress.setAddress_line_2("address_line_2");
+        newAddress.setPostal_code("postal_code");
+        newAddress.setCity("city");
+        newAddress.setCountry("country");
+        newAddress.setAddress_line_3("address_line_3");
+        newAddress.setLocation(location.get());
+        return addressRepository.save(newAddress);
+    }
+
+    @DeleteMapping("/addresses/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteAddress(@PathVariable int id) {
+        addressRepository.deleteById(id);
+    }
+// Addresses end
 
 // Persons
     /*@GetMapping("/persons")
@@ -52,6 +104,7 @@ public class PersonController {
     }
 
     @GetMapping("/persons/{id}")
+    @CrossOrigin(origins = "*")
     public Person getPerson(@PathVariable int id){
         Optional<Person> person = personRepository.findById(id);
         return person.get();
@@ -67,6 +120,7 @@ public class PersonController {
     }
 
     @PutMapping("/persons/{id}")
+    @CrossOrigin(origins = "*")
     public Person updatePerson(@PathVariable int id,
                            @RequestBody Map<String, String> body) throws ParseException {
 
@@ -82,6 +136,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/persons/{id}")
+    @CrossOrigin(origins = "*")
     public void deletePerson(@PathVariable int id) {
         personRepository.deleteById(id);
     }
@@ -89,17 +144,20 @@ public class PersonController {
 
 // Contacts
     @GetMapping("/contacts")
+    @CrossOrigin(origins = "*")
     public List<Contact> getAllContacts(){
         return contactRepository.findAll();
     }
 
     @GetMapping("/contacts/{id}")
+    @CrossOrigin(origins = "*")
     public Contact getContact(@PathVariable int id){
         Optional<Contact> contact = contactRepository.findById(id);
         return contact.get();
     }
 
     @PostMapping("/contacts")
+    @CrossOrigin(origins = "*")
     public Contact createContact(@RequestBody Map<String, String> body) {
         String contact_type = body.get("contact_type");
         String contact_detail = body.get("contact_detail");
@@ -108,6 +166,7 @@ public class PersonController {
     }
 
     @PutMapping("/contacts/{id}")
+    @CrossOrigin(origins = "*")
     public Contact updateContact(@PathVariable int id,
                                  @RequestBody Map<String, String> body) {
 
@@ -122,6 +181,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/contacts/{id}")
+    @CrossOrigin(origins = "*")
     public void deleteContact(@PathVariable int id) {
         contactRepository.deleteById(id);
     }
@@ -129,17 +189,20 @@ public class PersonController {
 
 // Teams
     @GetMapping("/teams")
+    @CrossOrigin(origins = "*")
     public List<Team> getAllTeams(){
         return teamRepository.findAll();
     }
 
     @GetMapping("/teams/{id}")
+    @CrossOrigin(origins = "*")
     public Team getTeam(@PathVariable int id){
         Optional<Team> team = teamRepository.findById(id);
         return team.get();
     }
 
     @PostMapping("/teams")
+    @CrossOrigin(origins = "*")
     public Team createTeam(@RequestBody Map<String, String> body) {
         Optional<Association> association = associationRepository.findById(Integer.parseInt(body.get("association")));
         Optional<Coach> coach = coachRepository.findById(Integer.parseInt(body.get("coach")));
@@ -149,6 +212,7 @@ public class PersonController {
     }
 
     @PutMapping("/teams/{id}")
+    @CrossOrigin(origins = "*")
     public Team updateTeam(@PathVariable int id,
                                      @RequestBody Map<String, String> body) {
         Optional<Association> association = associationRepository.findById(Integer.parseInt(body.get("association")));
@@ -167,6 +231,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/teams/{id}")
+    @CrossOrigin(origins = "*")
     public void deleteTeam(@PathVariable int id) {
         teamRepository.deleteById(id);
     }
@@ -174,17 +239,20 @@ public class PersonController {
 
 // Coach
     @GetMapping("/coaches")
+    @CrossOrigin(origins = "*")
     public List<Coach> getAllCoaches(){
         return coachRepository.findAll();
     }
 
     @GetMapping("/coaches/{id}")
+    @CrossOrigin(origins = "*")
     public Coach getCoach(@PathVariable int id){
         Optional<Coach> coach = coachRepository.findById(id);
         return coach.get();
     }
 
     @PostMapping("/coaches")
+    @CrossOrigin(origins = "*")
     public Coach createCoach(@RequestBody Map<String, String> body) {
         Optional<Person> person = personRepository.findById(Integer.parseInt(body.get("person")));
         Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
@@ -192,6 +260,7 @@ public class PersonController {
     }
 
     @PutMapping("/coaches/{id}")
+    @CrossOrigin(origins = "*")
     public Coach updateCoach(@PathVariable int id,
                            @RequestBody Map<String, String> body) {
         Optional<Coach> oldCoach = coachRepository.findById(id);
@@ -206,6 +275,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/coaches/{id}")
+    @CrossOrigin(origins = "*")
     public void deleteCoach(@PathVariable int id) {
         coachRepository.deleteById(id);
     }
@@ -213,17 +283,20 @@ public class PersonController {
 
 // Player
     @GetMapping("/players")
+    @CrossOrigin(origins = "*")
     public List<Player> getAllPlayers(){
         return playerRepository.findAll();
     }
 
     @GetMapping("/players/{id}")
+    @CrossOrigin(origins = "*")
     public Player getPlayer(@PathVariable int id){
         Optional<Player> player = playerRepository.findById(id);
         return player.get();
     }
 
     @PostMapping("/players")
+    @CrossOrigin(origins = "*")
     public Player createPlayer(@RequestBody Map<String, String> body) {
         String normal_position = body.get("normal_position");
         int number = Integer.parseInt(body.get("number"));
@@ -233,6 +306,7 @@ public class PersonController {
     }
 
     @PutMapping("/players/{id}")
+    @CrossOrigin(origins = "*")
     public Player updatePlayer(@PathVariable int id,
                                @RequestBody Map<String, String> body) {
         Optional<Player> oldPlayer = playerRepository.findById(id);
@@ -249,6 +323,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/players/{id}")
+    @CrossOrigin(origins = "*")
     public void deletePlayer(@PathVariable int id) {
         playerRepository.deleteById(id);
     }
@@ -256,18 +331,21 @@ public class PersonController {
 
 // Match
     @GetMapping("/matches")
+    @CrossOrigin(origins = "*")
     public List<Match> getAllMatches(){
         List<Match> test = matchRepository.findAll();
         return test;
     }
 
     @GetMapping("/matches/{id}")
+    @CrossOrigin(origins = "*")
     public Match getMatch(@PathVariable int id){
         Optional<Match> match = matchRepository.findById(id);
         return match.get();
     }
 
     @PostMapping("/matches")
+    @CrossOrigin(origins = "*")
     public Match createMatch(@RequestBody Map<String, String> body) throws ParseException {
         Optional<Season> season = seasonRepository.findById(Integer.parseInt(body.get("season")));
         Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
@@ -277,6 +355,7 @@ public class PersonController {
     }
 
     @PutMapping("/matches/{id}")
+    @CrossOrigin(origins = "*")
     public Match updateMatch(@PathVariable int id,
                                @RequestBody Map<String, String> body) {
         Optional<Match> oldMatch = matchRepository.findById(id);
@@ -301,6 +380,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/match/{id}")
+    @CrossOrigin(origins = "*")
     public void deleteMatch(@PathVariable int id) {
         matchRepository.deleteById(id);
     }
@@ -308,9 +388,7 @@ public class PersonController {
 
 
 // Helper methods
-    private Date parseDate(String dateString) throws ParseException {
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        return simpleDateFormat.parse(dateString);
+    private LocalDate parseDate(String dateString) {
+        return LocalDate.parse(dateString);
     }
 }

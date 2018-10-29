@@ -7,7 +7,7 @@ import java.util.Set;
 @Table(name = "LOCATION")
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int location_id;
     private String name;
     private String description;

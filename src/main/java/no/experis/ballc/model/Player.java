@@ -7,7 +7,7 @@ import java.util.Set;
 @Table(name = "PLAYER")
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int player_id;
     private String normal_position;
     private int number;

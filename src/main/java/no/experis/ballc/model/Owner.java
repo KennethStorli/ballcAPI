@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "OWNER")
 public class Owner {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int owner_id;
 
     @OneToOne(cascade = CascadeType.ALL)

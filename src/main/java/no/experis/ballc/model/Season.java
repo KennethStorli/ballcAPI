@@ -7,7 +7,7 @@ import java.util.Set;
 @Table(name = "SEASON")
 public class Season {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int season_id;
     private int start_date;
     private int end_date;
