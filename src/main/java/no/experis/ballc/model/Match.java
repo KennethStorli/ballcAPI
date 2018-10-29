@@ -1,6 +1,7 @@
 package no.experis.ballc.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -8,9 +9,9 @@ import java.util.Set;
 @Table(name = "FOOTBALL_MATCH")
 public class Match {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int match_id;
-    private Date match_date;
+    private LocalDate match_date;
 
     @ManyToOne
     @JoinColumn(name = "season_id")
@@ -40,7 +41,7 @@ public class Match {
     public Match() {
     }
 
-    public Match(Date match_date, Season season, Location location, Team home_team, Team away_team) {
+    public Match(LocalDate match_date, Season season, Location location, Team home_team, Team away_team) {
         this.match_date = match_date;
         this.season = season;
         this.location = location;
@@ -52,11 +53,11 @@ public class Match {
         return match_id;
     }
 
-    public Date getMatch_date() {
+    public LocalDate getMatch_date() {
         return match_date;
     }
 
-    public void setMatch_date(Date match_date) {
+    public void setMatch_date(LocalDate match_date) {
         this.match_date = match_date;
     }
 

@@ -7,7 +7,7 @@ import java.util.Set;
 @Table(name = "ASSOCIATION")
 public class Association {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int association_id;
     private String name;
     private String description;

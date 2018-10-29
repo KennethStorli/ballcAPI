@@ -19,7 +19,7 @@ public class PlaceController {
     @Autowired
     AddressJpaRepository addressRepository;
 
-    @GetMapping("/addresses")
+/*    @GetMapping("/addresses")
     public List<Address> getAllAddresses(){
         List<Address> test =  addressRepository.findAll();
         return test;
@@ -29,5 +29,5 @@ public class PlaceController {
     public Address getAddress(@PathVariable int id){
         Optional<Address> address = addressRepository.findById(id);
         return address.get();
-    }
+    }*/
 }
