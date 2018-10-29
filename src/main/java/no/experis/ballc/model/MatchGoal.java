@@ -16,7 +16,7 @@ public class MatchGoal {
 
     @ManyToOne
     @JoinColumn(name = "match_id")
-    private Match match;
+    private Match footballMatch;
 
     @ManyToOne
     @JoinColumn(name = "player_id")
@@ -25,10 +25,10 @@ public class MatchGoal {
     public MatchGoal() {
     }
 
-    public MatchGoal(String description, GoalType goalType, Match match, Player player) {
+    public MatchGoal(String description, GoalType goalType, Match footballMatch, Player player) {
         this.description = description;
         this.goalType = goalType;
-        this.match = match;
+        this.footballMatch = footballMatch;
         this.player = player;
     }
 
@@ -44,8 +44,8 @@ public class MatchGoal {
         return goalType;
     }
 
-    public Match getMatch() {
-        return match;
+    public Match getFootballMatch() {
+        return footballMatch;
     }
 
     public Player getPlayer() {

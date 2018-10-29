@@ -36,6 +36,10 @@ public class Player {
         this.team = team;
     }
 
+    public int getPlayer_id() {
+        return player_id;
+    }
+
     public String getNormal_position() {
         return normal_position;
     }
@@ -52,16 +56,16 @@ public class Player {
         this.number = number;
     }
 
-    public Person getPerson() {
-        return person;
+    public int getPerson() {
+        return person.getPerson_id();
     }
 
     public void setPerson(Person person) {
         this.person = person;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getTeam() {
+        return team.getTeam_id();
     }
 
     public void setTeam(Team team) {

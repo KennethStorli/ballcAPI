@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,7 +31,6 @@ public class Person {
 
     public Person(Address address, String first_name, String last_name, Date date_of_birth) {
         this.address = address;
-//        this.addressId = address.getAddress_id();
         this.first_name = first_name;
         this.last_name = last_name;
         this.date_of_birth = date_of_birth;
@@ -52,8 +52,12 @@ public class Person {
         this.address = address;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
+    public Set<Integer> getContacts() {
+        Set<Integer> contactIds = new HashSet<>();
+        for(Contact contact : contacts) {
+            contactIds.add(contact.getContact_id());
+        }
+        return contactIds;
     }
 
     public void setContacts(Set<Contact> contacts) {

@@ -22,8 +22,8 @@ public class Address {
             cascade = CascadeType.ALL)
     private Set<Person> persons;
 
-/*    @OneToOne(mappedBy = "address")
-    private Location location;*/
+    @OneToOne(mappedBy = "address")
+    private Location location;
 
     public Address() {
     }
@@ -34,7 +34,7 @@ public class Address {
         this.city = city;
     }
 
-    public Address(String address_line_1, String address_line_2, String postal_code, String city, String country, String address_line_3, Set<Person> persons/*, Location location*/) {
+    public Address(String address_line_1, String address_line_2, String postal_code, String city, String country, String address_line_3, Set<Person> persons, Location location) {
         this.address_line_1 = address_line_1;
         this.address_line_2 = address_line_2;
         this.postal_code = postal_code;
@@ -42,7 +42,7 @@ public class Address {
         this.country = country;
         this.address_line_3 = address_line_3;
         this.persons = persons;
-//        this.location = location;
+        this.location = location;
     }
 
     public int getAddress_id() {
@@ -77,7 +77,7 @@ public class Address {
         return persons;
     }
 
-/*    public Location getLocation() {
+    public Location getLocation() {
         return location;
-    }*/
+    }
 }

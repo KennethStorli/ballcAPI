@@ -3,6 +3,7 @@ package no.experis.ballc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,22 +15,18 @@ public class Team {
 
     @ManyToOne
     @JoinColumn(name = "association_id")
-    @JsonIgnore
     private Association association;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coach_id")
-    @JsonIgnore
     private Coach coach;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
-    @JsonIgnore
     private Owner owner;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
-    @JsonIgnore
     private Location location;
 
     @OneToMany(mappedBy = "home_team", cascade = CascadeType.ALL)
@@ -90,35 +87,51 @@ public class Team {
         this.location = location;
     }
 
-    public Set<Match> getHome_matches() {
-        return home_matches;
+    public Set<Integer> getHome_matches() {
+        Set<Integer> homeMatchIds = new HashSet<>();
+        for(Match homeMatch : home_matches) {
+            homeMatchIds.add(homeMatch.getMatch_id());
+        }
+        return homeMatchIds;
     }
 
     public void setHome_matches(Set<Match> home_matches) {
         this.home_matches = home_matches;
     }
 
-    public Set<Match> getAway_matches() {
-        return away_matches;
+    public Set<Integer> getAway_matches() {
+        Set<Integer> awayMatchIds = new HashSet<>();
+        for(Match awayMatch : away_matches) {
+            awayMatchIds.add(awayMatch.getMatch_id());
+        }
+        return awayMatchIds;
     }
 
     public void setAway_matches(Set<Match> away_matches) {
         this.away_matches = away_matches;
     }
 
-    public Set<Player> getPlayers() {
-        return players;
+    public Set<Integer> getPlayers() {
+        Set<Integer> playerIds = new HashSet<>();
+        for(Player player : players) {
+            playerIds.add(player.getPlayer_id());
+        }
+        return playerIds;
     }
 
     public void setPlayers(Set<Player> players) {
         this.players = players;
     }
 
-    public Set<Result> getResults() {
-        return results;
+/*    public Set<Integer> getResults() {
+        Set<Integer> resultIds = new HashSet<>();
+        for(Result result : results) {
+            resultIds.add(result.);
+        }
+        return playerIds;
     }
 
     public void setResults(Set<Result> results) {
         this.results = results;
-    }
+    }*/
 }
