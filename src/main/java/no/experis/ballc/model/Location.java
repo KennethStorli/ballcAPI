@@ -20,17 +20,17 @@ public class Location {
     private Set<Team> teams;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    private Set<Match> matches;
+    private Set<Match> footballMatches;
 
     public Location() {
     }
 
-    public Location(String name, String description, Address address, Set<Team> teams, Set<Match> matches) {
+    public Location(String name, String description, Address address, Set<Team> teams, Set<Match> footballMatches) {
         this.name = name;
         this.description = description;
         this.address = address;
         this.teams = teams;
-        this.matches = matches;
+        this.footballMatches = footballMatches;
     }
 
     public int getLocation_id() {
@@ -53,7 +53,7 @@ public class Location {
         return teams;
     }
 
-    public Set<Match> getMatches() {
-        return matches;
+    public Set<Match> getFootballMatches() {
+        return footballMatches;
     }
 }

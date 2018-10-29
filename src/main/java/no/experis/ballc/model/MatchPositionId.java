@@ -11,7 +11,7 @@ public class MatchPositionId implements Serializable {
     private Player player;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Match match;
+    private Match footballMatch;
 
     public Player getPlayer() {
         return player;
@@ -21,11 +21,11 @@ public class MatchPositionId implements Serializable {
         this.player = player;
     }
 
-    public Match getMatch() {
-        return match;
+    public Match getFootballMatch() {
+        return footballMatch;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setFootballMatch(Match footballMatch) {
+        this.footballMatch = footballMatch;
     }
 }

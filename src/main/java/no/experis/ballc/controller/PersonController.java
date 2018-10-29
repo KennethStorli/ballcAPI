@@ -31,7 +31,11 @@ public class PersonController {
     @Autowired
     OwnerJpaRepository ownerRepository;
     @Autowired
+    MatchJpaRepository matchRepository;
+    @Autowired
     AssociationJpaRepository associationRepository;
+    @Autowired
+    SeasonJpaRepository seasonRepository;
     @Autowired
     LocationJpaRepository locationRepository;
 
@@ -288,6 +292,59 @@ public class PersonController {
         ownerRepository.deleteById(id);
     }
     //Owner end
+
+
+// Match
+    @GetMapping("/matches")
+    public List<Match> getAllMatches(){
+        List<Match> test = matchRepository.findAll();
+        return test;
+    }
+
+    @GetMapping("/matches/{id}")
+    public Match getMatch(@PathVariable int id){
+        Optional<Match> match = matchRepository.findById(id);
+        return match.get();
+    }
+
+    @PostMapping("/matches")
+    public Match createMatch(@RequestBody Map<String, String> body) throws ParseException {
+        Optional<Season> season = seasonRepository.findById(Integer.parseInt(body.get("season")));
+        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
+        Optional<Team> home_team = teamRepository.findById(Integer.parseInt(body.get("home_team")));
+        Optional<Team> away_team = teamRepository.findById(Integer.parseInt(body.get("away_team")));
+        return matchRepository.save(new Match(parseDate(body.get("match_date")), season.get(), location.get(), home_team.get(), away_team.get()));
+    }
+
+    @PutMapping("/matches/{id}")
+    public Match updateMatch(@PathVariable int id,
+                               @RequestBody Map<String, String> body) {
+        Optional<Match> oldMatch = matchRepository.findById(id);
+        Match newMatch = oldMatch.get();
+
+        Optional<Season> season = seasonRepository.findById(Integer.parseInt(body.get("season")));
+        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
+        Optional<Team> home_team = teamRepository.findById(Integer.parseInt(body.get("home_team")));
+        Optional<Team> away_team = teamRepository.findById(Integer.parseInt(body.get("away_team")));
+
+        newMatch.setSeason(season.get());
+        newMatch.setLocation(location.get());
+        newMatch.setHome_team(home_team.get());
+        newMatch.setAway_team(away_team.get());
+        // TODO: Update results, goals and positions
+        /*
+        newMatch.setMatchGoals();
+        newMatch.setMatchPositions();
+        newMatch.setResults();
+        */
+        return matchRepository.save(newMatch);
+    }
+
+    @DeleteMapping("/match/{id}")
+    public void deleteMatch(@PathVariable int id) {
+        matchRepository.deleteById(id);
+    }
+// Match end
 
 
 // Helper methods

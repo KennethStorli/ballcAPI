@@ -8,7 +8,7 @@ import java.io.Serializable;
 @AssociationOverrides({
         @AssociationOverride(name = "primaryKey.team",
                 joinColumns = @JoinColumn(name = "team_id")),
-        @AssociationOverride(name = "primaryKey.match",
+        @AssociationOverride(name = "primaryKey.footballMatch",
                 joinColumns = @JoinColumn(name = "match_id")) })
 public class Result implements Serializable {
     @EmbeddedId
@@ -34,11 +34,11 @@ public class Result implements Serializable {
     }
 
     @Transient
-    public Match getMatch() {
-        return getPrimaryKey().getMatch();
+    public Match getFootballMatch() {
+        return getPrimaryKey().getFootballMatch();
     }
 
-    public void setMatch(Match match) {
-        getPrimaryKey().setMatch(match);
+    public void setFootballMatch(Match footballMatch) {
+        getPrimaryKey().setFootballMatch(footballMatch);
     }
 }

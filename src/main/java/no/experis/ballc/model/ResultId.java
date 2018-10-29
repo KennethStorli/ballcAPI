@@ -9,7 +9,7 @@ public class ResultId implements Serializable {
     private Team team;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Match match;
+    private Match footballMatch;
 
     public Team getTeam() {
         return team;
@@ -19,12 +19,12 @@ public class ResultId implements Serializable {
         this.team = team;
     }
 
-    public Match getMatch() {
-        return match;
+    public Match getFootballMatch() {
+        return footballMatch;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setFootballMatch(Match footballMatch) {
+        this.footballMatch = footballMatch;
     }
 
 
