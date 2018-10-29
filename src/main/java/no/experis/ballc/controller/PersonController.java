@@ -254,6 +254,46 @@ public class PersonController {
     }
 // Player end
 
+    //Owner
+    @GetMapping("/owners")
+    public List<Owner> getAllOwners(){
+        return ownerRepository.findAll();
+    }
+
+    @GetMapping("/owners/{id}")
+    public Owner getOwner(@PathVariable int id){
+        Optional<Owner> owner = ownerRepository.findById(id);
+        return owner.get();
+    }
+
+    @PostMapping("/owners")
+    public Owner createOwner(@RequestBody Map<String, String> body) {
+        Optional<Person> person = personRepository.findById(Integer.parseInt(body.get("person")));
+        Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
+        return ownerRepository.save(new Owner(person.get(), team.get()));
+    }
+
+    @PutMapping("/owners/{id}")
+    public Owner updateOwner(@PathVariable int id,
+                             @RequestBody Map<String, String> body) {
+        Optional<Owner> oldOwner = ownerRepository.findById(id);
+        Owner newOwner = oldOwner.get();
+
+        Optional<Person> person = personRepository.findById(Integer.parseInt(body.get("person")));
+        Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
+
+        newOwner.setPerson(person.get());
+        newOwner.setTeam(team.get());
+        return ownerRepository.save(newOwner);
+    }
+
+    @DeleteMapping("/owners/{id}")
+    public void deleteOwner(@PathVariable int id) {
+        ownerRepository.deleteById(id);
+    }
+    //Owner end
+
+
 // Match
     @GetMapping("/matches")
     public List<Match> getAllMatches(){

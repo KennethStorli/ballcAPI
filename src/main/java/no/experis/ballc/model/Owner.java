@@ -28,11 +28,21 @@ public class Owner {
         return owner_id;
     }
 
-    public Person getPerson() {
-        return person;
+    public void setPerson(Person person){
+        this.person = person;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getPerson() {
+        return person.getPerson_id();
     }
+
+    public void setTeam(Team team){
+        this.team = team;
+    }
+
+    public int getTeam() {
+        return team.getTeam_id();
+    }
+
+
 }
