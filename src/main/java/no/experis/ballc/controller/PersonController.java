@@ -346,6 +346,38 @@ public class PersonController {
     }
 // Match end
 
+    //association
+
+    @GetMapping("/associations")
+    public List<Association> getAllAssociations(){
+        return associationRepository.findAll();
+    }
+
+    @GetMapping("/associations/{id}")
+    public Association getAssociation(@PathVariable int id){
+        Optional<Association> association = associationRepository.findById(id);
+        return association.get();
+    }
+
+    @PostMapping("/associations")
+    public Association createAssociation(@RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+
+        return associationRepository.save(new Association(name , desc));
+    }
+
+    @PutMapping("/associations")
+    public Association updateAssociation(@PathVariable int id, @RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+        Association newAss = new Association(name, desc);
+        newAss.setAssociation_id(id);
+        return associationRepository.save(newAss);
+    }
+
+    //association end
+
 
 // Helper methods
     private Date parseDate(String dateString) throws ParseException {
