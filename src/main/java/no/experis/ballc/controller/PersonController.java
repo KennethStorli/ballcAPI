@@ -447,13 +447,19 @@ public class PersonController {
         return associationRepository.save(new Association(name , desc));
     }
 
-    @PutMapping("/associations")
+    @PutMapping("/associations/{id}")
     public Association updateAssociation(@PathVariable int id, @RequestBody Map<String, String> body) throws ParseException {
         String name = body.get("name");
         String desc = body.get("description");
         Association newAss = new Association(name, desc);
         newAss.setAssociation_id(id);
         return associationRepository.save(newAss);
+    }
+
+    @DeleteMapping("/associations/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteAssociation(@PathVariable int id) {
+        associationRepository.deleteById(id);
     }
 
     //association end
