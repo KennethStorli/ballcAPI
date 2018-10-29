@@ -7,7 +7,7 @@ import javax.persistence.*;
 @AssociationOverrides({
         @AssociationOverride(name = "primaryKey.player",
                 joinColumns = @JoinColumn(name = "player_id")),
-        @AssociationOverride(name = "primaryKey.match",
+        @AssociationOverride(name = "primaryKey.footballMatch",
                 joinColumns = @JoinColumn(name = "match_id")) })
 public class MatchPosition {
     @EmbeddedId
@@ -32,11 +32,11 @@ public class MatchPosition {
     }
 
     @Transient
-    public Match getMatch() {
-        return getPrimaryKey().getMatch();
+    public Match getFootballMatch() {
+        return getPrimaryKey().getFootballMatch();
     }
 
-    public void setMatch(Match match) {
-        getPrimaryKey().setMatch(match);
+    public void setFootballMatch(Match footballMatch) {
+        getPrimaryKey().setFootballMatch(footballMatch);
     }
 }
