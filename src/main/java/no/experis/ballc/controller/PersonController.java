@@ -39,6 +39,8 @@ public class PersonController {
     SeasonJpaRepository seasonRepository;
     @Autowired
     LocationJpaRepository locationRepository;
+    @Autowired
+    ResultJpaRepository resultRepository;
 
 // Addresses
     @GetMapping("/addresses")
@@ -329,6 +331,46 @@ public class PersonController {
     }
 // Player end
 
+    //Owner
+    @GetMapping("/owners")
+    public List<Owner> getAllOwners(){
+        return ownerRepository.findAll();
+    }
+
+    @GetMapping("/owners/{id}")
+    public Owner getOwner(@PathVariable int id){
+        Optional<Owner> owner = ownerRepository.findById(id);
+        return owner.get();
+    }
+
+    @PostMapping("/owners")
+    public Owner createOwner(@RequestBody Map<String, String> body) {
+        Optional<Person> person = personRepository.findById(Integer.parseInt(body.get("person")));
+        Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
+        return ownerRepository.save(new Owner(person.get(), team.get()));
+    }
+
+    @PutMapping("/owners/{id}")
+    public Owner updateOwner(@PathVariable int id,
+                             @RequestBody Map<String, String> body) {
+        Optional<Owner> oldOwner = ownerRepository.findById(id);
+        Owner newOwner = oldOwner.get();
+
+        Optional<Person> person = personRepository.findById(Integer.parseInt(body.get("person")));
+        Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
+
+        newOwner.setPerson(person.get());
+        newOwner.setTeam(team.get());
+        return ownerRepository.save(newOwner);
+    }
+
+    @DeleteMapping("/owners/{id}")
+    public void deleteOwner(@PathVariable int id) {
+        ownerRepository.deleteById(id);
+    }
+    //Owner end
+
+
 // Match
     @GetMapping("/matches")
     @CrossOrigin(origins = "*")
@@ -434,6 +476,83 @@ public class PersonController {
         locationRepository.deleteById(id);
     }
 // Location end
+
+    //association
+
+    @GetMapping("/associations")
+    public List<Association> getAllAssociations(){
+        return associationRepository.findAll();
+    }
+
+    @GetMapping("/associations/{id}")
+    public Association getAssociation(@PathVariable int id){
+        Optional<Association> association = associationRepository.findById(id);
+        return association.get();
+    }
+
+    @PostMapping("/associations")
+    public Association createAssociation(@RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+
+        return associationRepository.save(new Association(name , desc));
+    }
+
+    @PutMapping("/associations/{id}")
+    public Association updateAssociation(@PathVariable int id, @RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+        Association newAss = new Association(name, desc);
+        newAss.setAssociation_id(id);
+        return associationRepository.save(newAss);
+    }
+
+    @DeleteMapping("/associations/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteAssociation(@PathVariable int id) {
+        associationRepository.deleteById(id);
+    }
+
+    //association end
+
+    //result
+
+    @GetMapping("/results")
+    public List<Result> getAllResults(){
+        return resultRepository.findAll();
+    }
+
+    @GetMapping("/results/{id}")
+    public Result getResult(@PathVariable int id){
+        Optional<Result> result = resultRepository.findById(id);
+        return result.get();
+    }
+/*
+    @PostMapping("/results")
+    public Result createResult(@RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+//TODO
+        return resultRepository.save(new Result(name , desc));
+    }
+
+    @PutMapping("/results/{id}")
+    public Result updateResult(@PathVariable int id, @RequestBody Map<String, String> body) throws ParseException {
+        String name = body.get("name");
+        String desc = body.get("description");
+        Result newResult = new Result();
+        newResult.setMatch_id(id);
+        //TODO
+        return resultRepository.save(newResult);
+    }
+*/
+    @DeleteMapping("/results/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteResult(@PathVariable int id) {
+        resultRepository.deleteById(id);
+    }
+
+    //result end
 
 // Helper methods
     private LocalDate parseDate(String dateString) {

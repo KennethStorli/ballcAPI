@@ -18,14 +18,17 @@ public class Association {
     public Association() {
     }
 
-    public Association(String name, String description, Set<Team> teams) {
+    public Association(String name, String description) {
         this.name = name;
         this.description = description;
-        this.teams = teams;
+
     }
 
     public int getAssociation_id() {
         return association_id;
+    }
+    public void setAssociation_id(int id){
+        this.association_id = id;
     }
 
     public String getName() {
@@ -38,5 +41,8 @@ public class Association {
 
     public Set<Team> getTeams() {
         return teams;
+    }
+    public void setTeams(Set<Team> teams){
+        this.teams = teams;
     }
 }
