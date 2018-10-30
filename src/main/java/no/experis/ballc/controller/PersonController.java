@@ -56,15 +56,15 @@ public class PersonController {
 
     @PostMapping("/addresses")
     @CrossOrigin(origins = "*")
-    public Address createAddress(@RequestBody Map<String, String> body) {
+    public int createAddress(@RequestBody Map<String, String> body) {
         String address_line_1 = body.get("address_line_1");
         String address_line_2 = body.get("address_line_2");
         String postal_code = body.get("postal_code");
         String city = body.get("city");
         String country = body.get("country");
         String address_line_3 = body.get("address_line_3");
-        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
-        return addressRepository.save(new Address(address_line_1, address_line_2, postal_code, city, country, address_line_3, location.get()));
+        Address address = addressRepository.save(new Address(address_line_1, address_line_2, postal_code, city, country, address_line_3));
+        return address.getAddress_id();
     }
 
     @PutMapping("/addresses/{id}")
@@ -76,11 +76,11 @@ public class PersonController {
         Address newAddress = oldAddress.get();
 
         newAddress.setAddress_line_1(body.get("address_line_1"));
-        newAddress.setAddress_line_2("address_line_2");
-        newAddress.setPostal_code("postal_code");
-        newAddress.setCity("city");
-        newAddress.setCountry("country");
-        newAddress.setAddress_line_3("address_line_3");
+        newAddress.setAddress_line_2(body.get("address_line_2"));
+        newAddress.setPostal_code(body.get("postal_code"));
+        newAddress.setCity(body.get("city"));
+        newAddress.setCountry(body.get("country"));
+        newAddress.setAddress_line_3(body.get("address_line_3"));
         newAddress.setLocation(location.get());
         return addressRepository.save(newAddress);
     }
@@ -386,6 +386,54 @@ public class PersonController {
     }
 // Match end
 
+// Location
+    @GetMapping("/locations")
+    @CrossOrigin(origins = "*")
+    public List<Location> getAllLocations(){
+        return locationRepository.findAll();
+    }
+
+    @GetMapping("/locations/{id}")
+    @CrossOrigin(origins = "*")
+    public Location getLocation(@PathVariable int id){
+        Optional<Location> location = locationRepository.findById(id);
+        return location.get();
+    }
+
+    @PostMapping("/locations")
+    @CrossOrigin(origins = "*")
+    public Location createLocation(@RequestBody Map<String, String> body) {
+        String name = body.get("name");
+        String description = body.get("description");
+        Optional<Address> address = addressRepository.findById(Integer.parseInt(body.get("address")));
+        return locationRepository.save(new Location(name, description, address.get()));
+    }
+
+    @PutMapping("/locations/{id}")
+    @CrossOrigin(origins = "*")
+    public Location updateLocation(@PathVariable int id,
+                             @RequestBody Map<String, String> body) {
+        Optional<Location> oldLocation = locationRepository.findById(id);
+        Location newLocation = oldLocation.get();
+
+        Optional<Address> address = addressRepository.findById(Integer.parseInt(body.get("address")));
+
+        newLocation.setName(body.get("name"));
+        newLocation.setDescription(body.get("description"));
+        newLocation.setAddress(address.get());
+        // TODO: Update FootballMatches and Teams
+
+        /*newLocation.setFootballMatches();
+        newLocation.setTeams();*/
+
+        return locationRepository.save(newLocation);
+    }
+    @DeleteMapping("/locations/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteLocation(@PathVariable int id) {
+        locationRepository.deleteById(id);
+    }
+// Location end
 
 // Helper methods
     private LocalDate parseDate(String dateString) {

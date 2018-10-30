@@ -1,6 +1,7 @@
 package no.experis.ballc.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,25 +13,24 @@ public class Location {
     private String name;
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    private Set<Team> teams;
+    private Set<Team> teams = new HashSet<>();
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    private Set<Match> footballMatches;
+    private Set<Match> footballMatches = new HashSet<>();
 
     public Location() {
     }
 
-    public Location(String name, String description, Address address, Set<Team> teams, Set<Match> footballMatches) {
+    public Location(String name, String description, Address address) {
         this.name = name;
         this.description = description;
         this.address = address;
-        this.teams = teams;
-        this.footballMatches = footballMatches;
     }
 
     public int getLocation_id() {
@@ -41,19 +41,43 @@ public class Location {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
 
-    public Address getAddress() {
-        return address;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Set<Team> getTeams() {
-        return teams;
+    public int getAddress() {
+        return address.getAddress_id();
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<Integer> getTeams() {
+        Set<Integer> teamIds = new HashSet<>();
+        for(Team team : teams) {
+            teamIds.add(team.getTeam_id());
+        }
+        return teamIds;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 
     public Set<Match> getFootballMatches() {
         return footballMatches;
+    }
+
+    public void setFootballMatches(Set<Match> footballMatches) {
+        this.footballMatches = footballMatches;
     }
 }

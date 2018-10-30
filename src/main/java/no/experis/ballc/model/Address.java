@@ -1,5 +1,7 @@
 package no.experis.ballc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +24,8 @@ public class Address {
             cascade = CascadeType.ALL)
     private Set<Person> persons = new HashSet<>();
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(fetch = FetchType.LAZY,
+            mappedBy = "address")
     private Location location;
 
     public Address() {
@@ -32,6 +35,15 @@ public class Address {
         this.address_line_1 = address_line_1;
         this.postal_code = postal_code;
         this.city = city;
+    }
+
+    public Address(String address_line_1, String address_line_2, String postal_code, String city, String country, String address_line_3) {
+        this.address_line_1 = address_line_1;
+        this.address_line_2 = address_line_2;
+        this.postal_code = postal_code;
+        this.city = city;
+        this.country = country;
+        this.address_line_3 = address_line_3;
     }
 
     public Address(String address_line_1, String address_line_2, String postal_code, String city, String country, String address_line_3, Location location) {
@@ -109,8 +121,11 @@ public class Address {
     }
 
     public int getLocation() {
-        int test = location.getLocation_id();
-        return test;
+        if (location != null) {
+            return location.getLocation_id();
+        } else {
+            return -1;
+        }
     }
 
     public void setLocation(Location location) {
