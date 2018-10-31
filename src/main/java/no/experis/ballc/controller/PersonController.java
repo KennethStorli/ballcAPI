@@ -41,6 +41,10 @@ public class PersonController {
     LocationJpaRepository locationRepository;
     @Autowired
     ResultJpaRepository resultRepository;
+    @Autowired
+    MatchGoalJpaRepository matchGoalRepository;
+    @Autowired
+    GoalTypeJpaRepository goalTypeRepository;
 
 // Addresses
     @GetMapping("/addresses")
@@ -206,11 +210,12 @@ public class PersonController {
     @PostMapping("/teams")
     @CrossOrigin(origins = "*")
     public Team createTeam(@RequestBody Map<String, String> body) {
+        String teamName = body.get("teamName");
         Optional<Association> association = associationRepository.findById(Integer.parseInt(body.get("association")));
         Optional<Coach> coach = coachRepository.findById(Integer.parseInt(body.get("coach")));
         Optional<Owner> owner = ownerRepository.findById(Integer.parseInt(body.get("owner")));
         Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
-        return teamRepository.save(new Team(association.get(), coach.get(), owner.get(), location.get()));
+        return teamRepository.save(new Team(teamName, association.get(), coach.get(), owner.get(), location.get()));
     }
 
     @PutMapping("/teams/{id}")
@@ -225,6 +230,7 @@ public class PersonController {
         Optional<Team> oldTeam = teamRepository.findById(id);
         Team newTeam = oldTeam.get();
 
+        newTeam.setTeamName(body.get("teamName"));
         newTeam.setAssociation(association.get());
         newTeam.setCoach(coach.get());
         newTeam.setOwner(owner.get());
@@ -421,7 +427,7 @@ public class PersonController {
         return matchRepository.save(newMatch);
     }
 
-    @DeleteMapping("/match/{id}")
+    @DeleteMapping("/matches/{id}")
     @CrossOrigin(origins = "*")
     public void deleteMatch(@PathVariable int id) {
         matchRepository.deleteById(id);
@@ -477,7 +483,7 @@ public class PersonController {
     }
 // Location end
 
-    //association
+//association
 
     @GetMapping("/associations")
     public List<Association> getAllAssociations(){
@@ -552,7 +558,144 @@ public class PersonController {
         resultRepository.deleteById(id);
     }
 
-    //result end
+//result end
+
+// MatchGoals
+    @GetMapping("/matchgoals")
+    @CrossOrigin(origins = "*")
+    public List<MatchGoal> getAllMatchGoals(){
+        return matchGoalRepository.findAll();
+    }
+
+    @GetMapping("/matchgoals/{id}")
+    @CrossOrigin(origins = "*")
+    public MatchGoal getMatchGoal(@PathVariable int id){
+        Optional<MatchGoal> matchGoal = matchGoalRepository.findById(id);
+        return matchGoal.get();
+    }
+
+    @PostMapping("/matchgoals")
+    @CrossOrigin(origins = "*")
+    public MatchGoal createMatchGoal(@RequestBody Map<String, String> body) {
+        String description = body.get("description");
+        Optional<GoalType> goalType = goalTypeRepository.findById(Integer.parseInt(body.get("goalType")));
+        Optional<Match> footballMatch = matchRepository.findById(Integer.parseInt(body.get("footballMatch")));
+        Optional<Player> player = playerRepository.findById(Integer.parseInt(body.get("player")));
+        return matchGoalRepository.save(new MatchGoal(description, goalType.get(), footballMatch.get(), player.get()));
+    }
+
+    @PutMapping("/matchgoals/{id}")
+    @CrossOrigin(origins = "*")
+    public MatchGoal updateMatchGoal(@PathVariable int id,
+                                   @RequestBody Map<String, String> body) {
+        Optional<MatchGoal> oldMatchGoal = matchGoalRepository.findById(id);
+        MatchGoal newMatchGoal = oldMatchGoal.get();
+
+        Optional<GoalType> goalType = goalTypeRepository.findById(Integer.parseInt(body.get("goalType")));
+        Optional<Match> footballMatch = matchRepository.findById(Integer.parseInt(body.get("footballMatch")));
+        Optional<Player> player = playerRepository.findById(Integer.parseInt(body.get("player")));
+
+        newMatchGoal.setDescription(body.get("description"));
+        newMatchGoal.setGoalType(goalType.get());
+        newMatchGoal.setFootballMatch(footballMatch.get());
+        newMatchGoal.setPlayer(player.get());
+        return matchGoalRepository.save(newMatchGoal);
+    }
+
+    @DeleteMapping("/matchgoals/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteMatchGoal(@PathVariable int id) {
+        matchGoalRepository.deleteById(id);
+    }
+// MatchGoals end
+
+// Seasons
+    @GetMapping("/seasons")
+    @CrossOrigin(origins = "*")
+    public List<Season> getAllSeasons(){
+        return seasonRepository.findAll();
+    }
+
+    @GetMapping("/seasons/{id}")
+    @CrossOrigin(origins = "*")
+    public Season getSeason(@PathVariable int id){
+        Optional<Season> season = seasonRepository.findById(id);
+        return season.get();
+    }
+
+    @PostMapping("/seasons")
+    @CrossOrigin(origins = "*")
+    public Season createSeason(@RequestBody Map<String, String> body) {
+        LocalDate start_date = LocalDate.parse(body.get("start_date"));
+        LocalDate end_date = LocalDate.parse(body.get("end_date"));
+        String name = body.get("name");
+        String description = body.get("description");
+        return seasonRepository.save(new Season(start_date, end_date, name, description));
+    }
+
+    @PutMapping("/seasons/{id}")
+    @CrossOrigin(origins = "*")
+    public Season updateSeason(@PathVariable int id,
+                                     @RequestBody Map<String, String> body) {
+        Optional<Season> oldSeason = seasonRepository.findById(id);
+        Season newSeason = oldSeason.get();
+
+        newSeason.setStart_date(LocalDate.parse(body.get("start_date")));
+        newSeason.setEnd_date(LocalDate.parse(body.get("end_date")));
+        newSeason.setName(body.get("name"));
+        newSeason.setDescription(body.get("description"));
+        return seasonRepository.save(newSeason);
+    }
+
+    @DeleteMapping("/seasons/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteSeason(@PathVariable int id) {
+        seasonRepository.deleteById(id);
+    }
+// Seasons end
+
+// GoalType
+    @GetMapping("/goaltypes")
+    @CrossOrigin(origins = "*")
+    public List<GoalType> getAllGoalTypes(){
+        return goalTypeRepository.findAll();
+    }
+
+    @GetMapping("/goaltypes/{id}")
+    @CrossOrigin(origins = "*")
+    public GoalType getGoalType(@PathVariable int id){
+        Optional<GoalType> goalType = goalTypeRepository.findById(id);
+        return goalType.get();
+    }
+
+    @PostMapping("/goaltypes")
+    @CrossOrigin(origins = "*")
+    public GoalType createGoalType(@RequestBody Map<String, String> body) {
+        String type = body.get("type");
+        return goalTypeRepository.save(new GoalType(type));
+    }
+
+    @PutMapping("/goaltypes/{id}")
+    @CrossOrigin(origins = "*")
+    public GoalType updateGoalType(@PathVariable int id,
+                               @RequestBody Map<String, String> body) {
+        Optional<GoalType> oldGoalType = goalTypeRepository.findById(id);
+        GoalType newGoalType = oldGoalType.get();
+
+        newGoalType.setType(body.get("type"));
+        return goalTypeRepository.save(newGoalType);
+    }
+
+    @DeleteMapping("/goaltypes/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteGoalType(@PathVariable int id) {
+        goalTypeRepository.deleteById(id);
+    }
+// GoalType end
+
+// MatchPosition
+
+// MatchPosition end
 
 // Helper methods
     private LocalDate parseDate(String dateString) {

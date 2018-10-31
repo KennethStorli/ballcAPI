@@ -1,6 +1,7 @@
 package no.experis.ballc.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,10 +22,10 @@ public class Player {
     private Team team;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
-    private Set<MatchGoal> matchGoals;
+    private Set<MatchGoal> matchGoals = new HashSet<>();
 
     @OneToMany(mappedBy = "primaryKey.player", cascade = CascadeType.ALL)
-    private Set<MatchPosition> matchPositions;
+    private Set<MatchPosition> matchPositions = new HashSet<>();
 
     public Player() {
     }

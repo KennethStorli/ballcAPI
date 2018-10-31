@@ -73,8 +73,12 @@ public class Location {
         this.teams = teams;
     }
 
-    public Set<Match> getFootballMatches() {
-        return footballMatches;
+    public Set<Integer> getFootballMatches() {
+        Set<Integer> fotballMatchIds = new HashSet<>();
+        for(Match match : footballMatches) {
+            fotballMatchIds.add(match.getMatch_id());
+        }
+        return fotballMatchIds;
     }
 
     public void setFootballMatches(Set<Match> footballMatches) {

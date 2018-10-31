@@ -13,6 +13,8 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int team_id;
 
+    private String team_name;
+
     @ManyToOne
     @JoinColumn(name = "association_id")
     private Association association;
@@ -30,21 +32,22 @@ public class Team {
     private Location location;
 
     @OneToMany(mappedBy = "home_team", cascade = CascadeType.ALL)
-    private Set<Match> home_matches;
+    private Set<Match> home_matches = new HashSet<>();
 
     @OneToMany(mappedBy = "away_team", cascade = CascadeType.ALL)
-    private Set<Match> away_matches;
+    private Set<Match> away_matches = new HashSet<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private Set<Player> players;
+    private Set<Player> players = new HashSet<>();
 
     @OneToMany(mappedBy = "primaryKey.team", cascade = CascadeType.ALL)
-    private Set<Result> results;
+    private Set<Result> results = new HashSet<>();
 
     public Team() {
     }
 
-    public Team(Association association, Coach coach, Owner owner, Location location) {
+    public Team(String teamName, Association association, Coach coach, Owner owner, Location location) {
+        this.team_name = teamName;
         this.association = association;
         this.coach = coach;
         this.owner = owner;
@@ -53,6 +56,14 @@ public class Team {
 
     public int getTeam_id() {
         return team_id;
+    }
+
+    public String getTeamName() {
+        return team_name;
+    }
+
+    public void setTeamName(String teamName) {
+        this.team_name = teamName;
     }
 
     public int getAssociation() {
@@ -126,7 +137,7 @@ public class Team {
 /*    public Set<Integer> getResults() {
         Set<Integer> resultIds = new HashSet<>();
         for(Result result : results) {
-            resultIds.add(result.);
+            resultIds.add(result);
         }
         return playerIds;
     }

@@ -1,6 +1,7 @@
 package no.experis.ballc.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ public class Association {
     private String description;
 
     @OneToMany(mappedBy = "association", cascade = CascadeType.ALL)
-    private Set<Team> teams;
+    private Set<Team> teams = new HashSet<>();
 
     public Association() {
     }
