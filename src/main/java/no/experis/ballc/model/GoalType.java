@@ -1,6 +1,8 @@
 package no.experis.ballc.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "GOAL_TYPE")
@@ -10,15 +12,16 @@ public class GoalType {
     private int goal_type_id;
     private String type;
 
-    @OneToOne(mappedBy = "goalType")
-    private MatchGoal matchGoal;
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "goalType",
+            cascade = CascadeType.ALL)
+    private Set<MatchGoal> matchGoals = new HashSet<>();
 
     public GoalType() {
     }
 
-    public GoalType(String type, MatchGoal matchGoal) {
+    public GoalType(String type) {
         this.type = type;
-        this.matchGoal = matchGoal;
     }
 
     public int getGoal_type_id() {
@@ -29,7 +32,19 @@ public class GoalType {
         return type;
     }
 
-    public MatchGoal getMatchGoal() {
-        return matchGoal;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Set<Integer> getMatchGoal() {
+        Set<Integer> matchGoalIds = new HashSet<>();
+        for(MatchGoal matchGoal : matchGoals) {
+            matchGoalIds.add(matchGoal.getGoal_id());
+        }
+        return matchGoalIds;
+    }
+
+    public void setMatchGoal(Set<MatchGoal> matchGoals) {
+        this.matchGoals = matchGoals;
     }
 }

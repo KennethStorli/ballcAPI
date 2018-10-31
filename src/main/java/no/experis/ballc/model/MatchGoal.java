@@ -10,7 +10,7 @@ public class MatchGoal {
     private int goal_id;
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goal_type_id")
     private GoalType goalType;
 
@@ -40,15 +40,31 @@ public class MatchGoal {
         return description;
     }
 
-    public GoalType getGoalType() {
-        return goalType;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Match getFootballMatch() {
-        return footballMatch;
+    public int getGoalType() {
+        return goalType.getGoal_type_id();
     }
 
-    public Player getPlayer() {
-        return player;
+    public void setGoalType(GoalType goalType) {
+        this.goalType = goalType;
+    }
+
+    public int getFootballMatch() {
+        return footballMatch.getMatch_id();
+    }
+
+    public void setFootballMatch(Match footballMatch) {
+        this.footballMatch = footballMatch;
+    }
+
+    public int getPlayer() {
+        return player.getPlayer_id();
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
