@@ -14,7 +14,6 @@ public class Contact {
     private String contact_detail;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
-    @JsonIgnore
     private Person person;
 
     public Contact() {
@@ -50,8 +49,8 @@ public class Contact {
         this.contact_detail = contact_detail;
     }
 
-    public Person getPerson() {
-        return person;
+    public int getPerson() {
+        return person.getPerson_id();
     }
 
     public void setPerson(Person person) {

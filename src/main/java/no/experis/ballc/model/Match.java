@@ -27,17 +27,17 @@ public class Match {
     private Team home_team;
 
     @ManyToOne
-    @JoinColumn(name = "away_team_id", insertable=false, updatable=false)
+    @JoinColumn(name = "away_team_id"/*, insertable=false, updatable=false*/)
     private Team away_team;
 
     @OneToMany(mappedBy = "footballMatch", cascade = CascadeType.ALL)
-    private Set<MatchGoal> matchGoals;
+    private Set<MatchGoal> matchGoals = new HashSet<>();
 
     @OneToMany(mappedBy = "primaryKey.footballMatch", cascade = CascadeType.ALL)
-    private Set<MatchPosition> matchPositions;
+    private Set<MatchPosition> matchPositions = new HashSet<>();
 
     @OneToMany(mappedBy = "primaryKey.footballMatch", cascade = CascadeType.ALL)
-    private Set<Result> results;
+    private Set<Result> results = new HashSet<>();
 
     public Match() {
     }
@@ -62,49 +62,59 @@ public class Match {
         this.match_date = match_date;
     }
 
-    public Season getSeason() {
-        return season;
+    public int getSeason() {
+        return season.getSeason_id();
     }
 
     public void setSeason(Season season) {
         this.season = season;
     }
 
-    public Location getLocation() {
-        return location;
+    public int getLocation() {
+        return location.getLocation_id();
     }
 
     public void setLocation(Location location) {
         this.location = location;
     }
 
-    public Team getHome_team() {
-        return home_team;
+    public int getHome_team() {
+        return home_team.getTeam_id();
     }
 
     public void setHome_team(Team home_team) {
         this.home_team = home_team;
     }
 
-    public Team getAway_team() {
-        return away_team;
+    public int getAway_team() {
+        return away_team.getTeam_id();
     }
 
     public void setAway_team(Team away_team) {
         this.away_team = away_team;
     }
 
-    public Set<MatchGoal> getMatchGoals() {
-        return matchGoals;
+    public Set<Integer> getMatchGoals() {
+        Set<Integer> matchGoalIds = new HashSet<>();
+        for(MatchGoal matchGoal : matchGoals) {
+            matchGoalIds.add(matchGoal.getGoal_id());
+        }
+        return matchGoalIds;
     }
 
     public void setMatchGoals(Set<MatchGoal> matchGoals) {
         this.matchGoals = matchGoals;
     }
 
-    public Set<MatchPosition> getMatchPositions() {
-        return matchPositions;
+/*
+    public Set<Integer> getMatchPositions() {
+        Set<Integer> matchPositionIds = new HashSet<>();
+        for(MatchPosition matchPosition : matchPositions) {
+            matchPositionIds.add(matchPosition.getPrimaryKey());
+        }
+        return matchPositionIds;
     }
+*/
 
     public void setMatchPositions(Set<MatchPosition> matchPositions) {
         this.matchPositions = matchPositions;
