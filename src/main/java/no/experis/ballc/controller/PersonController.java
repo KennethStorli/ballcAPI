@@ -45,6 +45,8 @@ public class PersonController {
     MatchGoalJpaRepository matchGoalRepository;
     @Autowired
     GoalTypeJpaRepository goalTypeRepository;
+    @Autowired
+    MatchPositionJpaRepository matchPositionRepository;
 
 // Addresses
     @GetMapping("/addresses")
@@ -694,7 +696,42 @@ public class PersonController {
 // GoalType end
 
 // MatchPosition
+/*    @GetMapping("/goaltypes")
+    @CrossOrigin(origins = "*")
+    public List<MatchPosition> getAllMatchPositions(){
+        return matchPositionRepository.findAll();
+    }
 
+    @GetMapping("/goaltypes/{id}")
+    @CrossOrigin(origins = "*")
+    public GoalType getGoalType(@PathVariable int id){
+        Optional<GoalType> goalType = goalTypeRepository.findById(id);
+        return goalType.get();
+    }
+
+    @PostMapping("/goaltypes")
+    @CrossOrigin(origins = "*")
+    public GoalType createGoalType(@RequestBody Map<String, String> body) {
+        String type = body.get("type");
+        return goalTypeRepository.save(new GoalType(type));
+    }
+
+    @PutMapping("/goaltypes/{id}")
+    @CrossOrigin(origins = "*")
+    public GoalType updateGoalType(@PathVariable int id,
+                                   @RequestBody Map<String, String> body) {
+        Optional<GoalType> oldGoalType = goalTypeRepository.findById(id);
+        GoalType newGoalType = oldGoalType.get();
+
+        newGoalType.setType(body.get("type"));
+        return goalTypeRepository.save(newGoalType);
+    }
+
+    @DeleteMapping("/goaltypes/{id}")
+    @CrossOrigin(origins = "*")
+    public void deleteGoalType(@PathVariable int id) {
+        goalTypeRepository.deleteById(id);
+    }*/
 // MatchPosition end
 
 // Helper methods
