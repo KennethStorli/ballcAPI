@@ -25,7 +25,7 @@ public class Result implements Serializable {
     }
 
     @Transient
-    public Team getTeam() {
+    public int getTeam() {
         return getPrimaryKey().getTeam();
     }
 
@@ -34,11 +34,23 @@ public class Result implements Serializable {
     }
 
     @Transient
-    public Match getFootballMatch() {
+    public int getFootballMatch() {
         return getPrimaryKey().getFootballMatch();
     }
 
     public void setFootballMatch(Match footballMatch) {
         getPrimaryKey().setFootballMatch(footballMatch);
+    }
+
+    public int getScore(){return this.score;}
+
+    public void setScore(int score){
+        this.score = score;
+    }
+
+    public String getResult(){return this.result;}
+
+    public void setResult(String result){
+        this.result = result;
     }
 }

@@ -3,6 +3,7 @@ package no.experis.ballc.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -109,8 +110,12 @@ public class Match {
         this.matchPositions = matchPositions;
     }
 
-    public Set<Result> getResults() {
-        return results;
+    public Set<ResultId> getResults() {
+        Set<ResultId> retVar = new HashSet<ResultId>();
+        for (Result res: results) {
+            retVar.add(res.getPrimaryKey());
+        }
+        return retVar;
     }
 
     public void setResults(Set<Result> results) {
