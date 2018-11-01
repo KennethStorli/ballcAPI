@@ -11,16 +11,18 @@ public class ResultId implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Match footballMatch;
 
-    public Team getTeam() {
-        return team;
+    public int getTeam() {
+        return team.getTeam_id();
     }
+
+
 
     public void setTeam(Team team) {
         this.team = team;
     }
 
-    public Match getFootballMatch() {
-        return footballMatch;
+    public int getFootballMatch() {
+        return footballMatch.getMatch_id();
     }
 
     public void setFootballMatch(Match footballMatch) {

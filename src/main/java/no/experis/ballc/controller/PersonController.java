@@ -530,34 +530,72 @@ public class PersonController {
         return resultRepository.findAll();
     }
 
-    @GetMapping("/results/{id}")
-    public Result getResult(@PathVariable int id){
-        Optional<Result> result = resultRepository.findById(id);
+    @GetMapping("/results/{teamId}/{matchId}")
+    public Result getResult(@PathVariable int teamId, @PathVariable int matchId){
+        //make new ResultID object
+        //need Team object and Match object
+        //get two ids and find each object by id
+        //use objects to create resultID
+        //findbyID paste in object
+        ResultId resId = new ResultId();
+        Optional<Team> team =  teamRepository.findById(teamId);
+        resId.setTeam(team.get());
+        resId.setFootballMatch(matchRepository.findById(matchId).get());
+        Optional<Result> result = resultRepository.findById(resId);
         return result.get();
     }
-/*
+
     @PostMapping("/results")
     public Result createResult(@RequestBody Map<String, String> body) throws ParseException {
-        String name = body.get("name");
-        String desc = body.get("description");
-//TODO
-        return resultRepository.save(new Result(name , desc));
+        int teamId = Integer.valueOf(body.get("teamId"));
+        int matchId = Integer.valueOf(body.get("matchId"));
+        ResultId resId = new ResultId();
+        Team idTeam = teamRepository.findById(teamId).get();
+        resId.setTeam(idTeam);
+        Match idMatch = matchRepository.findById(matchId).get();
+        resId.setFootballMatch(idMatch);
+
+
+        int score = Integer.valueOf(body.get("score"));
+        String result = body.get("result");
+
+        Result insertResult = new Result();
+        insertResult.setPrimaryKey(resId);
+        insertResult.setResult(result);
+        insertResult.setScore(score);
+        return resultRepository.save(insertResult);
     }
 
-    @PutMapping("/results/{id}")
-    public Result updateResult(@PathVariable int id, @RequestBody Map<String, String> body) throws ParseException {
-        String name = body.get("name");
-        String desc = body.get("description");
-        Result newResult = new Result();
-        newResult.setMatch_id(id);
-        //TODO
-        return resultRepository.save(newResult);
+    @PutMapping("/results")
+    public Result updateResult(@RequestBody Map<String, String> body) throws ParseException {
+        int teamId = Integer.valueOf(body.get("teamId"));
+        int matchId = Integer.valueOf(body.get("matchId"));
+        ResultId resId = new ResultId();
+        Team idTeam = teamRepository.findById(teamId).get();
+        resId.setTeam(idTeam);
+        Match idMatch = matchRepository.findById(matchId).get();
+        resId.setFootballMatch(idMatch);
+
+
+        int score = Integer.valueOf(body.get("score"));
+        String result = body.get("result");
+
+        Result updateResult = new Result();
+        updateResult.setPrimaryKey(resId);
+        updateResult.setResult(result);
+        updateResult.setScore(score);
+        return resultRepository.save(updateResult);
     }
-*/
-    @DeleteMapping("/results/{id}")
+
+    @DeleteMapping("/results/{teamId}/{matchId}")
     @CrossOrigin(origins = "*")
-    public void deleteResult(@PathVariable int id) {
-        resultRepository.deleteById(id);
+    public void deleteResult(@PathVariable int teamId, @PathVariable int matchId) {
+        ResultId delId = new ResultId();
+        Team idTeam = teamRepository.findById(teamId).get();
+        delId.setTeam(idTeam);
+        Match idMatch = matchRepository.findById(matchId).get();
+        delId.setFootballMatch(idMatch);
+        resultRepository.deleteById(delId);
     }
 
 //result end
@@ -733,6 +771,7 @@ public class PersonController {
         goalTypeRepository.deleteById(id);
     }*/
 // MatchPosition end
+
 
 // Helper methods
     private LocalDate parseDate(String dateString) {
