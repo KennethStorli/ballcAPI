@@ -39,4 +39,12 @@ public class MatchPosition {
     public void setFootballMatch(Match footballMatch) {
         getPrimaryKey().setFootballMatch(footballMatch);
     }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 }

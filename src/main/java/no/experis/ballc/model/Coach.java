@@ -37,7 +37,10 @@ public class Coach {
     }
 
     public int getTeam() {
-        return team.getTeam_id();
+        if(team != null) {
+            return team.getTeam_id();
+        }
+        return -1;
     }
 
     public void setTeam(Team team) {
