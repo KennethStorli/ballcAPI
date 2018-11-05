@@ -528,11 +528,6 @@ public class PersonController {
 
     @GetMapping("/results/{teamId}/{matchId}")
     public Result getResult(@PathVariable int teamId, @PathVariable int matchId){
-        //make new ResultID object
-        //need Team object and Match object
-        //get two ids and find each object by id
-        //use objects to create resultID
-        //findbyID paste in object
         ResultId resId = new ResultId();
         Optional<Team> team =  teamRepository.findById(teamId);
         resId.setTeam(team.get());
@@ -542,7 +537,7 @@ public class PersonController {
     }
 
     @PostMapping("/results")
-    public Result createResult(@RequestBody Map<String, String> body) throws ParseException {
+    public Result createResult(@RequestBody Map<String, String> body) {
         int teamId = Integer.valueOf(body.get("teamId"));
         int matchId = Integer.valueOf(body.get("matchId"));
         ResultId resId = new ResultId();
@@ -561,11 +556,11 @@ public class PersonController {
         return resultRepository.save(insertResult);
     }
 
-    @PutMapping("/results")
-    public Result updateResult(@RequestBody Map<String, String> body) throws ParseException {
+    @PutMapping("/results/{teamId}/{matchId}")
+    public Result updateResult(@PathVariable int teamId, @PathVariable int matchId, @RequestBody Map<String, String> body) {
         ResultId resId = new ResultId();
-        resId.setTeam(teamRepository.findById(Integer.valueOf(body.get("teamId"))).get());
-        resId.setFootballMatch(matchRepository.findById(Integer.valueOf(body.get("matchId"))).get());
+        resId.setTeam(teamRepository.findById(teamId).get());
+        resId.setFootballMatch(matchRepository.findById(matchId).get());
 
         Result newResult = resultRepository.findById(resId).get();
 
