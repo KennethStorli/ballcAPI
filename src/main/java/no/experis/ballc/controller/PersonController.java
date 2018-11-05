@@ -743,7 +743,7 @@ public class PersonController {
     @PostMapping("/matchpositions")
     @CrossOrigin(origins = "*")
     public MatchPosition createMatchPosition(@RequestBody Map<String, String> body) {
-        Player player = playerRepository.findById(Integer.parseInt(body.get("teamId"))).get();
+        Player player = playerRepository.findById(Integer.parseInt(body.get("playerId"))).get();
         Match match = matchRepository.findById(Integer.parseInt(body.get("matchId"))).get();
 
         MatchPositionId matchPositionId = new MatchPositionId();
@@ -760,10 +760,10 @@ public class PersonController {
 
     @PutMapping("/matchpositions/{playerId}/{matchId}")
     @CrossOrigin(origins = "*")
-    public MatchPosition updateMatchPosition(@PathVariable int id,
+    public MatchPosition updateMatchPosition(@PathVariable int playerId, @PathVariable int matchId,
                                    @RequestBody Map<String, String> body) {
-        Player player = playerRepository.findById(Integer.parseInt(body.get("teamId"))).get();
-        Match match = matchRepository.findById(Integer.parseInt(body.get("matchId"))).get();
+        Player player = playerRepository.findById(playerId).get();
+        Match match = matchRepository.findById(matchId).get();
         MatchPositionId matchPositionId = new MatchPositionId();
         matchPositionId.setPlayer(player);
         matchPositionId.setFootballMatch(match);

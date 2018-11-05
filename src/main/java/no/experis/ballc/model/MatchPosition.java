@@ -21,20 +21,20 @@ public class MatchPosition {
     public void setPrimaryKey(MatchPositionId primaryKey) {
         this.primaryKey = primaryKey;
     }
-
-    @Transient
-    public Player getPlayer() {
-        return getPrimaryKey().getPlayer();
-    }
+//
+//    @Transient
+//    public int getPlayer() {
+//        return getPrimaryKey().getPlayer();
+//    }
 
     public void setPlayer(Player player) {
         getPrimaryKey().setPlayer(player);
     }
 
-    @Transient
-    public Match getFootballMatch() {
-        return getPrimaryKey().getFootballMatch();
-    }
+//    @Transient
+//    public int getFootballMatch() {
+//        return getPrimaryKey().getFootballMatch();
+//    }
 
     public void setFootballMatch(Match footballMatch) {
         getPrimaryKey().setFootballMatch(footballMatch);
