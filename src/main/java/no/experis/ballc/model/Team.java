@@ -1,7 +1,5 @@
 package no.experis.ballc.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +9,8 @@ import java.util.Set;
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int team_id;
+    @Column(name = "team_id")
+    private int id;
 
     private String team_name;
 
@@ -55,7 +54,7 @@ public class Team {
     }
 
     public int getTeam_id() {
-        return team_id;
+        return id;
     }
 
     public String getTeamName() {

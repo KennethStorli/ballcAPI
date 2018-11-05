@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class PersonController {
@@ -785,6 +782,23 @@ public class PersonController {
         matchPositionRepository.deleteById(matchPositionId);
     }
 // MatchPosition end
+
+// Custom endpoints
+    @GetMapping("/players/team/{teamId}")
+    @CrossOrigin(origins = "*")
+    public List<TeamPlayersInfo> getAllTeamPlayersInfo(@PathVariable int teamId){
+        List<Player> players = playerRepository.findByTeamId(teamId);
+        List<TeamPlayersInfo> playerInfoList = new ArrayList<>();
+
+        for(int i = 0; i < players.size(); i++) {
+            TeamPlayersInfo info = new TeamPlayersInfo(
+                    personRepository.findById(players.get(i).getPerson()).get(),
+                    players.get(i)
+            );
+            playerInfoList.add(info);
+        }
+        return playerInfoList;
+    }
 
 // Helper methods
     private LocalDate parseDate(String dateString) {
