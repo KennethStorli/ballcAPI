@@ -65,8 +65,12 @@ public class Season {
         this.description = description;
     }
 
-    public Set<Match> getMatches() {
-        return matches;
+    public Set<Integer> getMatches() {
+        Set<Integer> matchIds = new HashSet<>();
+        for(Match match : matches) {
+            matchIds.add(match.getMatch_id());
+        }
+        return matchIds;
     }
 
     public void setMatches(Set<Match> matches) {

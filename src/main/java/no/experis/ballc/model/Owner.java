@@ -19,6 +19,10 @@ public class Owner {
     public Owner() {
     }
 
+    public Owner(Person person) {
+        this.person = person;
+    }
+
     public Owner(Person person, Team team) {
         this.person = person;
         this.team = team;
@@ -41,7 +45,10 @@ public class Owner {
     }
 
     public int getTeam() {
-        return team.getTeam_id();
+        if(team != null) {
+            return team.getTeam_id();
+        }
+        return -1;
     }
 
 

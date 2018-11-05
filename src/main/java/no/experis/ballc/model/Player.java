@@ -73,16 +73,24 @@ public class Player {
         this.team = team;
     }
 
-    public Set<MatchGoal> getMatchGoals() {
-        return matchGoals;
+    public Set<Integer> getMatchGoals() {
+        Set<Integer> matchGoalIds = new HashSet<>();
+        for(MatchGoal matchGoal : matchGoals) {
+            matchGoalIds.add(matchGoal.getGoal_id());
+        }
+        return matchGoalIds;
     }
 
     public void setMatchGoals(Set<MatchGoal> matchGoals) {
         this.matchGoals = matchGoals;
     }
 
-    public Set<MatchPosition> getMatchPositions() {
-        return matchPositions;
+    public Set<MatchPositionId> getMatchPositions() {
+        Set<MatchPositionId> matchPositionIds = new HashSet<>();
+        for(MatchPosition matchPosition : matchPositions) {
+            matchPositionIds.add(matchPosition.getPrimaryKey());
+        }
+        return matchPositionIds;
     }
 
     public void setMatchPositions(Set<MatchPosition> matchPositions) {
