@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -76,7 +75,6 @@ public class PersonController {
     @CrossOrigin(origins = "*")
     public Address updateAddress(@PathVariable int id,
                                @RequestBody Map<String, String> body) {
-        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
         Optional<Address> oldAddress = addressRepository.findById(id);
         Address newAddress = oldAddress.get();
 
@@ -86,7 +84,6 @@ public class PersonController {
         newAddress.setCity(body.get("city"));
         newAddress.setCountry(body.get("country"));
         newAddress.setAddress_line_3(body.get("address_line_3"));
-        newAddress.setLocation(location.get());
         return addressRepository.save(newAddress);
     }
 
@@ -781,22 +778,33 @@ public class PersonController {
 // Custom endpoints
     @GetMapping("/players/team/{teamId}")
     @CrossOrigin(origins = "*")
-    public List<TeamPlayersInfo> getAllTeamPlayersInfo(@PathVariable int teamId){
-        List<Player> players = playerRepository.findByTeamId(teamId);
-        List<TeamPlayersInfo> playerInfoList = new ArrayList<>();
+    public List<PlayerInfo> getAllTeamPlayersInfo(@PathVariable int teamId){
+        return getPlayerInfoList(playerRepository.findByTeamId(teamId));
+    }
 
-        for(int i = 0; i < players.size(); i++) {
-            TeamPlayersInfo info = new TeamPlayersInfo(
-                    personRepository.findById(players.get(i).getPerson()).get(),
-                    players.get(i)
-            );
-            playerInfoList.add(info);
-        }
-        return playerInfoList;
+    @GetMapping("/playersinfo")
+    @CrossOrigin(origins = "*")
+    public List<PlayerInfo> getAllPlayersInfo(){
+        return getPlayerInfoList(playerRepository.findAll());
     }
 
 // Helper methods
     private LocalDate parseDate(String dateString) {
         return LocalDate.parse(dateString);
     }
+
+    private List<PlayerInfo> getPlayerInfoList(List<Player> players) {
+        List<PlayerInfo> playerInfoList = new ArrayList<>();
+
+        for(int i = 0; i < players.size(); i++) {
+            Person tempPerson = personRepository.findById(players.get(i).getPerson()).get();
+            PlayerInfo info = new PlayerInfo(
+                    tempPerson, players.get(i)
+            );
+            playerInfoList.add(info);
+        }
+        return playerInfoList;
+    }
 }
+
+

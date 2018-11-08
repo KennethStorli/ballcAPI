@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 
-public class TeamPlayersInfo {
+public class PlayerInfo {
     @JsonProperty("person_id")
     int personId;
     @JsonProperty("player_id")
     int playerId;
+    @JsonProperty("team_id")
+    int teamId;
     @JsonProperty("first_name")
     String firstName;
     @JsonProperty("last_name")
@@ -20,18 +22,30 @@ public class TeamPlayersInfo {
     @JsonProperty("number")
     int number;
 
-    public TeamPlayersInfo() {
+    public PlayerInfo() {
     }
 
-    public TeamPlayersInfo(Person person, Player player) {
+    public PlayerInfo(Person person, Player player) {
         this.personId = person.getPerson_id();
         this.playerId = player.getPlayer_id();
+        this.teamId = player.getTeam();
         this.firstName = person.getFirst_name();
         this.lastName = person.getLast_name();
         this.birthDate = person.getDate_of_birth();
         this.normalPosition = player.getNormal_position();
         this.number = player.getNumber();
     }
+/*
+    public PlayerInfo(Person person, Player player, Team team) {
+        this.personId = person.getPerson_id();
+        this.playerId = player.getPlayer_id();
+        this.teamId = team.getTeam_id();
+        this.firstName = person.getFirst_name();
+        this.lastName = person.getLast_name();
+        this.birthDate = person.getDate_of_birth();
+        this.normalPosition = player.getNormal_position();
+        this.number = player.getNumber();
+    }*/
 
     public int getPersonId() {
         return personId;
@@ -47,6 +61,14 @@ public class TeamPlayersInfo {
 
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
+    }
+
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
     }
 
     public String getFirstName() {
