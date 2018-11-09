@@ -377,8 +377,7 @@ public class PersonController {
     @GetMapping("/matches")
     @CrossOrigin(origins = "*")
     public List<Match> getAllMatches(){
-        List<Match> test = matchRepository.findAll();
-        return test;
+        return matchRepository.findAll();
     }
 
     @GetMapping("/matches/{id}")
@@ -576,7 +575,6 @@ public class PersonController {
         delId.setFootballMatch(idMatch);
         resultRepository.deleteById(delId);
     }
-
 // Result end
 
 // MatchGoals
@@ -788,6 +786,18 @@ public class PersonController {
         return getPlayerInfoList(playerRepository.findAll());
     }
 
+    @GetMapping("/teamstats/{teamId}")
+    @CrossOrigin(origins = "*")
+    public List<Result> getResultsByTeam(@PathVariable int teamId){
+        return filterResultsByTeam(resultRepository.findAll(), teamId);
+    }
+
+    @GetMapping("/playerstats/{playerId}")
+    @CrossOrigin(origins = "*")
+    public List<MatchGoal> getMatchGoalsByPlayer(@PathVariable int playerId){
+        return filterGoalsByPlayer(matchGoalRepository.findAll(), playerId);
+    }
+
 // Helper methods
     private LocalDate parseDate(String dateString) {
         return LocalDate.parse(dateString);
@@ -804,6 +814,26 @@ public class PersonController {
             playerInfoList.add(info);
         }
         return playerInfoList;
+    }
+
+    private List<Result> filterResultsByTeam(List<Result> resultList, int teamId) {
+        List<Result> teamResults = new ArrayList<>();
+        for(Result result : resultList) {
+            if(result.getTeam() == teamId) {
+                teamResults.add(result);
+            }
+        }
+        return teamResults;
+    }
+
+    private List<MatchGoal> filterGoalsByPlayer(List<MatchGoal> goalList, int playerId) {
+        List<MatchGoal> playerGoals = new ArrayList<>();
+        for(MatchGoal goal : goalList) {
+            if(goal.getPlayer() == playerId) {
+                playerGoals.add(goal);
+            }
+        }
+        return playerGoals;
     }
 }
 

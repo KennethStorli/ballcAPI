@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PlayerJpaRepository extends JpaRepository<Player, Integer> {
-    List<Player> findByNormalPosition(String position);
     List<Player> findByTeamId(int teamId);
 }
