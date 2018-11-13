@@ -7,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class PersonController {
@@ -45,6 +41,8 @@ public class PersonController {
     MatchGoalJpaRepository matchGoalRepository;
     @Autowired
     GoalTypeJpaRepository goalTypeRepository;
+    @Autowired
+    MatchPositionJpaRepository matchPositionRepository;
 
 // Addresses
     @GetMapping("/addresses")
@@ -77,7 +75,6 @@ public class PersonController {
     @CrossOrigin(origins = "*")
     public Address updateAddress(@PathVariable int id,
                                @RequestBody Map<String, String> body) {
-        Optional<Location> location = locationRepository.findById(Integer.parseInt(body.get("location")));
         Optional<Address> oldAddress = addressRepository.findById(id);
         Address newAddress = oldAddress.get();
 
@@ -87,7 +84,6 @@ public class PersonController {
         newAddress.setCity(body.get("city"));
         newAddress.setCountry(body.get("country"));
         newAddress.setAddress_line_3(body.get("address_line_3"));
-        newAddress.setLocation(location.get());
         return addressRepository.save(newAddress);
     }
 
@@ -352,8 +348,8 @@ public class PersonController {
     @PostMapping("/owners")
     public Owner createOwner(@RequestBody Map<String, String> body) {
         Optional<Person> person = personRepository.findById(Integer.parseInt(body.get("person")));
-        Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
-        return ownerRepository.save(new Owner(person.get(), team.get()));
+//        Optional<Team> team = teamRepository.findById(Integer.parseInt(body.get("team")));
+        return ownerRepository.save(new Owner(person.get()/*, team.get()*/));
     }
 
     @PutMapping("/owners/{id}")
@@ -381,8 +377,7 @@ public class PersonController {
     @GetMapping("/matches")
     @CrossOrigin(origins = "*")
     public List<Match> getAllMatches(){
-        List<Match> test = matchRepository.findAll();
-        return test;
+        return matchRepository.findAll();
     }
 
     @GetMapping("/matches/{id}")
@@ -519,10 +514,9 @@ public class PersonController {
         associationRepository.deleteById(id);
     }
 
-    //association end
+// Association end
 
-    //result
-
+// Result
     @GetMapping("/results")
     public List<Result> getAllResults(){
         return resultRepository.findAll();
@@ -530,7 +524,6 @@ public class PersonController {
 
     @GetMapping("/results/{teamId}/{matchId}")
     public Result getResult(@PathVariable int teamId, @PathVariable int matchId){
-
         ResultId resId = new ResultId();
         Optional<Team> team =  teamRepository.findById(teamId);
         resId.setTeam(team.get());
@@ -540,7 +533,7 @@ public class PersonController {
     }
 
     @PostMapping("/results")
-    public Result createResult(@RequestBody Map<String, String> body) throws ParseException {
+    public Result createResult(@RequestBody Map<String, String> body) {
         int teamId = Integer.valueOf(body.get("teamId"));
         int matchId = Integer.valueOf(body.get("matchId"));
         ResultId resId = new ResultId();
@@ -548,7 +541,6 @@ public class PersonController {
         resId.setTeam(idTeam);
         Match idMatch = matchRepository.findById(matchId).get();
         resId.setFootballMatch(idMatch);
-
 
         int score = Integer.valueOf(body.get("score"));
         String result = body.get("result");
@@ -560,25 +552,17 @@ public class PersonController {
         return resultRepository.save(insertResult);
     }
 
-    @PutMapping("/results")
-    public Result updateResult(@RequestBody Map<String, String> body) throws ParseException {
-        int teamId = Integer.valueOf(body.get("teamId"));
-        int matchId = Integer.valueOf(body.get("matchId"));
+    @PutMapping("/results/{teamId}/{matchId}")
+    public Result updateResult(@PathVariable int teamId, @PathVariable int matchId, @RequestBody Map<String, String> body) {
         ResultId resId = new ResultId();
-        Team idTeam = teamRepository.findById(teamId).get();
-        resId.setTeam(idTeam);
-        Match idMatch = matchRepository.findById(matchId).get();
-        resId.setFootballMatch(idMatch);
+        resId.setTeam(teamRepository.findById(teamId).get());
+        resId.setFootballMatch(matchRepository.findById(matchId).get());
 
+        Result newResult = resultRepository.findById(resId).get();
 
-        int score = Integer.valueOf(body.get("score"));
-        String result = body.get("result");
-
-        Result updateResult = new Result();
-        updateResult.setPrimaryKey(resId);
-        updateResult.setResult(result);
-        updateResult.setScore(score);
-        return resultRepository.save(updateResult);
+        newResult.setResult(body.get("result"));
+        newResult.setScore(Integer.valueOf(body.get("score")));
+        return resultRepository.save(newResult);
     }
 
     @DeleteMapping("/results/{teamId}/{matchId}")
@@ -591,8 +575,7 @@ public class PersonController {
         delId.setFootballMatch(idMatch);
         resultRepository.deleteById(delId);
     }
-
-//result end
+// Result end
 
 // MatchGoals
     @GetMapping("/matchgoals")
@@ -728,12 +711,130 @@ public class PersonController {
 // GoalType end
 
 // MatchPosition
+    @GetMapping("/matchpositions")
+    @CrossOrigin(origins = "*")
+    public List<MatchPosition> getAllMatchPositions(){
+        return matchPositionRepository.findAll();
+    }
 
+    @GetMapping("/matchpositions/{playerId}/{matchId}")
+    @CrossOrigin(origins = "*")
+    public MatchPosition getGoalType(@PathVariable int playerId, @PathVariable int matchId){
+        MatchPositionId matchPositionId = new MatchPositionId();
+        matchPositionId.setPlayer(playerRepository.findById(playerId).get());
+        matchPositionId.setFootballMatch(matchRepository.findById(matchId).get());
+
+        return matchPositionRepository.findById(matchPositionId).get();
+    }
+
+    @PostMapping("/matchpositions")
+    @CrossOrigin(origins = "*")
+    public MatchPosition createMatchPosition(@RequestBody Map<String, String> body) {
+        Player player = playerRepository.findById(Integer.parseInt(body.get("playerId"))).get();
+        Match match = matchRepository.findById(Integer.parseInt(body.get("matchId"))).get();
+
+        MatchPositionId matchPositionId = new MatchPositionId();
+        matchPositionId.setPlayer(player);
+        matchPositionId.setFootballMatch(match);
+        String position = body.get("position");
+
+        MatchPosition matchPosition = new MatchPosition();
+        matchPosition.setPrimaryKey(matchPositionId);
+        matchPosition.setPosition(position);
+
+        return matchPositionRepository.save(matchPosition);
+    }
+
+    @PutMapping("/matchpositions/{playerId}/{matchId}")
+    @CrossOrigin(origins = "*")
+    public MatchPosition updateMatchPosition(@PathVariable int playerId, @PathVariable int matchId,
+                                   @RequestBody Map<String, String> body) {
+        Player player = playerRepository.findById(playerId).get();
+        Match match = matchRepository.findById(matchId).get();
+        MatchPositionId matchPositionId = new MatchPositionId();
+        matchPositionId.setPlayer(player);
+        matchPositionId.setFootballMatch(match);
+
+        MatchPosition newMatchPosition = matchPositionRepository.findById(matchPositionId).get();
+        newMatchPosition.setPosition(body.get("position"));
+
+        return matchPositionRepository.save(newMatchPosition);
+    }
+
+    @DeleteMapping("/matchpositions/{playerId}/{matchId}")
+    @CrossOrigin(origins = "*")
+    public void deleteMatchPosition(@PathVariable int playerId, @PathVariable int matchId) {
+        Player player = playerRepository.findById(playerId).get();
+        Match match = matchRepository.findById(matchId).get();
+        MatchPositionId matchPositionId = new MatchPositionId();
+        matchPositionId.setPlayer(player);
+        matchPositionId.setFootballMatch(match);
+        matchPositionRepository.deleteById(matchPositionId);
+    }
 // MatchPosition end
 
+// Custom endpoints
+    @GetMapping("/players/team/{teamId}")
+    @CrossOrigin(origins = "*")
+    public List<PlayerInfo> getAllTeamPlayersInfo(@PathVariable int teamId){
+        return getPlayerInfoList(playerRepository.findByTeamId(teamId));
+    }
+
+    @GetMapping("/playersinfo")
+    @CrossOrigin(origins = "*")
+    public List<PlayerInfo> getAllPlayersInfo(){
+        return getPlayerInfoList(playerRepository.findAll());
+    }
+
+    @GetMapping("/teamstats/{teamId}")
+    @CrossOrigin(origins = "*")
+    public List<Result> getResultsByTeam(@PathVariable int teamId){
+        return filterResultsByTeam(resultRepository.findAll(), teamId);
+    }
+
+    @GetMapping("/playerstats/{playerId}")
+    @CrossOrigin(origins = "*")
+    public List<MatchGoal> getMatchGoalsByPlayer(@PathVariable int playerId){
+        return filterGoalsByPlayer(matchGoalRepository.findAll(), playerId);
+    }
 
 // Helper methods
     private LocalDate parseDate(String dateString) {
         return LocalDate.parse(dateString);
     }
+
+    private List<PlayerInfo> getPlayerInfoList(List<Player> players) {
+        List<PlayerInfo> playerInfoList = new ArrayList<>();
+
+        for(int i = 0; i < players.size(); i++) {
+            Person tempPerson = personRepository.findById(players.get(i).getPerson()).get();
+            PlayerInfo info = new PlayerInfo(
+                    tempPerson, players.get(i)
+            );
+            playerInfoList.add(info);
+        }
+        return playerInfoList;
+    }
+
+    private List<Result> filterResultsByTeam(List<Result> resultList, int teamId) {
+        List<Result> teamResults = new ArrayList<>();
+        for(Result result : resultList) {
+            if(result.getTeam() == teamId) {
+                teamResults.add(result);
+            }
+        }
+        return teamResults;
+    }
+
+    private List<MatchGoal> filterGoalsByPlayer(List<MatchGoal> goalList, int playerId) {
+        List<MatchGoal> playerGoals = new ArrayList<>();
+        for(MatchGoal goal : goalList) {
+            if(goal.getPlayer() == playerId) {
+                playerGoals.add(goal);
+            }
+        }
+        return playerGoals;
+    }
 }
+
+

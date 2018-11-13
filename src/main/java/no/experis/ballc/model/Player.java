@@ -10,7 +10,8 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int player_id;
-    private String normal_position;
+    @Column(name = "normal_position")
+    private String normalPosition;
     private int number;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -30,8 +31,8 @@ public class Player {
     public Player() {
     }
 
-    public Player(String normal_position, int number, Person person, Team team) {
-        this.normal_position = normal_position;
+    public Player(String normalPosition, int number, Person person, Team team) {
+        this.normalPosition = normalPosition;
         this.number = number;
         this.person = person;
         this.team = team;
@@ -42,11 +43,11 @@ public class Player {
     }
 
     public String getNormal_position() {
-        return normal_position;
+        return normalPosition;
     }
 
     public void setNormal_position(String normal_position) {
-        this.normal_position = normal_position;
+        this.normalPosition = normalPosition;
     }
 
     public int getNumber() {
@@ -73,16 +74,24 @@ public class Player {
         this.team = team;
     }
 
-    public Set<MatchGoal> getMatchGoals() {
-        return matchGoals;
+    public Set<Integer> getMatchGoals() {
+        Set<Integer> matchGoalIds = new HashSet<>();
+        for(MatchGoal matchGoal : matchGoals) {
+            matchGoalIds.add(matchGoal.getGoal_id());
+        }
+        return matchGoalIds;
     }
 
     public void setMatchGoals(Set<MatchGoal> matchGoals) {
         this.matchGoals = matchGoals;
     }
 
-    public Set<MatchPosition> getMatchPositions() {
-        return matchPositions;
+    public Set<MatchPositionId> getMatchPositions() {
+        Set<MatchPositionId> matchPositionIds = new HashSet<>();
+        for(MatchPosition matchPosition : matchPositions) {
+            matchPositionIds.add(matchPosition.getPrimaryKey());
+        }
+        return matchPositionIds;
     }
 
     public void setMatchPositions(Set<MatchPosition> matchPositions) {
