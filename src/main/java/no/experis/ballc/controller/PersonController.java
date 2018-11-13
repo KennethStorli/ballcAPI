@@ -530,11 +530,7 @@ public class PersonController {
 
     @GetMapping("/results/{teamId}/{matchId}")
     public Result getResult(@PathVariable int teamId, @PathVariable int matchId){
-        //make new ResultID object
-        //need Team object and Match object
-        //get two ids and find each object by id
-        //use objects to create resultID
-        //findbyID paste in object
+
         ResultId resId = new ResultId();
         Optional<Team> team =  teamRepository.findById(teamId);
         resId.setTeam(team.get());
